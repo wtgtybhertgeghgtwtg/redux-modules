@@ -1,0 +1,19 @@
+{
+  "name": "@wtg/redux-modules-test-utils",
+  "version": "0.0.0",
+  "description": "Test utilities for `@wtg/redux-modules`.",
+  "main": "lib/index.js",
+  "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/redux-modules-test-utils",
+  "author": "Matthew Fernando Garcia",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.2.1"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "engines": {
+    "node": ">=4",
+    "yarn": ">=0.20.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-eslint": "^7.1.1",
+    "babel-jest": "^20.0.3",
+    "babel-preset-latest": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "cross-env": "^5.0.1",
+    "eslint": "^3.0.0",
+    "eslint-config-fb-strict": "^20.0.3",
+    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-flowtype": "^2.34.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-jasmine": "^2.3.1",
+    "eslint-plugin-markdown": "^1.0.0-beta.6",
+    "eslint-plugin-prefer-object-spread": "^1.2.1",
+    "eslint-plugin-react": "^6.0.0",
+    "flow-bin": "^0.48.0",
+    "flux-standard-action": "^1.1.0",
+    "jest": "^20.0.4",
+    "lerna": "^2.0.0-rc.5",
+    "lodash": "^4.2.1",
+    "react": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.0",
+    "rimraf": "^2.6.1"
+  },
+  "scripts": {
+    "postinstall": "lerna bootstrap",
+    "lint": "eslint packages/**/src/*.js packages/**/__test__/*.js",
+    "lint:fix": "eslint packages/**/src/*.js packages/**/__test__/*.js --fix",
+    "flow": "flow",
+    "jest": "jest --coverage",
+    "test": "yarn run lint && yarn run flow && yarn run jest",
+    "clean": "rimraf packages/**/es packages/**/lib",
+    "build": "yarn run build:redux-modules && yarn run build:react-redux-modules",
+    "build:redux-modules": "yarn run build:redux-modules:commonjs && yarn run build:redux-modules:es",
+    "build:redux-modules:commonjs": "cross-env BABEL_ENV=commonjs babel packages/redux-modules/src --out-dir packages/redux-modules/lib -i \"/node_modules|__tests__/\"",
+    "build:redux-modules:es": "cross-env BABEL_ENV=es babel packages/redux-modules/src --out-dir packages/redux-modules/es -i \"/node_modules|__tests__/\"",
+    "build:react-redux-modules": "yarn run build:react-redux-modules:commonjs && yarn run build:react-redux-modules:es -i \"/node_modules|__tests__/\"",
+    "build:react-redux-modules:commonjs": "cross-env BABEL_ENV=commonjs babel packages/react-redux-modules/src --out-dir packages/react-redux-modules/lib -i \"/node_modules|__tests__/\"",
+    "build:react-redux-modules:es": "cross-env BABEL_ENV=es babel packages/react-redux-modules/src --out-dir packages/react-redux-modules/es -i \"/node_modules|__tests__/\"",
+    "build:redux-modules-test-utils": "yarn run build:redux-modules-test-utils:commonjs && yarn run build:redux-modules-test-utils:es",
+    "build:redux-modules-test-utils:commonjs": "cross-env BABEL_ENV=commonjs babel packages/redux-modules-test-utils/src --out-dir packages/redux-modules-test-utils/lib -i \"/node_modules|__tests__/\"",
+    "build:redux-modules-test-utils:es": "cross-env BABEL_ENV=es babel packages/redux-modules-test-utils/src --out-dir packages/redux-modules-test-utils/es -i \"/node_modules|__tests__/\"",
+    "publish": "yarn run clean && yarn run build && lerna publish"
+  }
+}

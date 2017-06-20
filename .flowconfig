@@ -1,0 +1,10 @@
+[ignore]
+.*/node_modules/conventional-changelog-core/*
+
+[include]
+
+[libs]
+
+[options]
+module.name_mapper='^types/\(.*\)$' -> '<PROJECT_ROOT>/types/\1.js'
+suppress_comment=\\(.\\|\n\\)*\\$ExpectError

@@ -1,0 +1,28 @@
+{
+  "name": "@wtg/react-redux-modules",
+  "version": "0.0.0",
+  "description": "`react-redux` for `@wtg/redux-modules`.",
+  "license": "MIT",
+  "author": "Matthew Fernando Garcia",
+  "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/react-redux-modules",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
+  "dependencies": {
+    "arrify": "^1.0.1",
+    "invariant": "^2.2.2",
+    "lodash": "^4.2.1",
+    "prop-types": "^15.5.10"
+  },
+  "peerDependencies": {
+    "@wtg/redux-modules": "^0.1.0",
+    "react": "^15.0.0",
+    "react-redux": "^5.0.0",
+    "redux": "^3.0.0"
+  }
+}

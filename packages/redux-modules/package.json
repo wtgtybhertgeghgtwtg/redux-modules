@@ -1,0 +1,23 @@
+{
+  "name": "@wtg/redux-modules",
+  "version": "0.0.0",
+  "description": "A simplistic alternate approach to https://github.com/procore/redux-modules.",
+  "license": "MIT",
+  "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/redux-modules",
+  "author": "Matthew Fernando Garcia",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
+  "dependencies": {
+    "invariant": "^2.2.2",
+    "lodash": "^4.2.1"
+  },
+  "peerDependencies": {
+    "redux": "^3.0.0"
+  }
+}
