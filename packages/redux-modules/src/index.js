@@ -6,3 +6,5 @@ export {
 };
 
 export default createModule;
+
+export type {Action, ActionCreator, ExtractActionCreatorType, ReducerMap, ReduxModule, Transformations} from './types';

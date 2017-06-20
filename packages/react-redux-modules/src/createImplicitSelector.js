@@ -1,7 +1,7 @@
 // @flow
 import {at, map} from 'lodash';
 
-import type {ReduxModule} from 'types/redux-modules';
+import type {ReduxModule} from '@wtg/redux-modules';
 
 export default function createImplicitSelector(modules: Array<ReduxModule<*, *>>) {
   const names = map(modules, 'name');

@@ -3,7 +3,7 @@ import {mapValues} from 'lodash';
 
 import type {Reducer} from 'redux';
 
-import type {Action, ActionCreator, ReduxModule, Transformations} from 'types/redux-modules';
+import type {Action, ActionCreator, ReduxModule, Transformations} from '@wtg/redux-modules';
 
 export type BoundModuleWithState<S, T> = $ObjMap<T, ExtractBoundModuleWithState<S>>;
 

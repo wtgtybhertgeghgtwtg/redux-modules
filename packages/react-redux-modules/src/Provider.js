@@ -7,7 +7,7 @@ import {createStore} from 'redux';
 import createRegisterModules from './createRegisterModules';
 
 import type {Store} from 'redux';
-import type {Action, ReduxModule} from 'types/redux-modules';
+import type {Action, ReduxModule} from '@wtg/redux-modules';
 
 export type ProviderProps<S> = {
   store?: Store<S, Action<*, *>>,

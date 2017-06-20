@@ -5,7 +5,7 @@ import {Component, createElement} from 'react';
 import {bindActionCreators, type Dispatch} from 'redux';
 import {connect as reactReduxConnect, type MapStateToProps} from 'react-redux';
 
-import type {Action, ReduxModule} from 'types/redux-modules';
+import type {Action, ReduxModule} from '@wtg/redux-modules';
 
 export default function connectComponent<S, OP: Object, SP: Object>(selector: MapStateToProps<S, OP, SP>, modules: Array<ReduxModule<*, *>>) {
   const actionCreators = Object.assign({}, ...map(modules, 'actionCreators'));

@@ -6,7 +6,7 @@ import invariant from 'invariant';
 import connectComponent from './connectComponent';
 import createImplicitSelector from './createImplicitSelector';
 
-import type {ReduxModule} from 'types/redux-modules';
+import type {ReduxModule} from '@wtg/redux-modules';
 
 type Modules = Array<ReduxModule<*, *>> | ReduxModule<*, *>;
 type Selector = (state: Object) => Object;

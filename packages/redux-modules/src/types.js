@@ -4,7 +4,7 @@ import type {Reducer} from 'redux';
 export type Action<P, M> = {
   type: string,
   payload?: P,
-  error?: bool,
+  error?: boolean,
   meta?: M,
 };
 

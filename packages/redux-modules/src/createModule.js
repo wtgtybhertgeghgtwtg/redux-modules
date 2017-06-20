@@ -4,7 +4,7 @@ import {forEach, isObjectLike} from 'lodash';
 
 import type {Reducer} from 'redux';
 
-import type {ExtractActionCreatorType, ReducerMap, ReduxModule, Transformations} from 'types/redux-modules';
+import type {ExtractActionCreatorType, ReducerMap, ReduxModule, Transformations} from './types';
 
 import createActionCreator from './createActionCreator';
 import createReducer from './createReducer';

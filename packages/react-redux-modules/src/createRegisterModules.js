@@ -1,7 +1,7 @@
 import {has, set} from 'lodash';
 import {combineReducers, type Reducer, type Store} from 'redux';
 
-import type {ReduxModule} from 'types/redux-modules';
+import type {ReduxModule} from '@wtg/redux-modules';
 
 export default function createRegisterModules(store: Store<*, *>) {
   const registry: { [name: string]: Reducer<*, *> } = Object.create(null);

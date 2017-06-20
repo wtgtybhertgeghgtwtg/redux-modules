@@ -1,7 +1,7 @@
 // @flow
 import createModule, {type createModuleOptions} from '../src/createModule';
 
-import type {Transformations} from 'types/redux-modules';
+import type {Transformations} from '../src/types';
 
 function harness<S: Object, T: Transformations<S>>(options: createModuleOptions<S, T>) {
   const {name, initialState, transformations} = options;
@@ -27,7 +27,7 @@ function harness<S: Object, T: Transformations<S>>(options: createModuleOptions<
 
 describe('createModule without `name`', () => {
   it('throws.', () => {
-    // $ExpectError
+    // $FlowFixMe
     expect(() => harness({})).toThrow();
   });
 });
@@ -35,7 +35,7 @@ describe('createModule without `name`', () => {
 describe('createModule without `initialState`', () => {
   it('throws.', () => {
     const name = 'test';
-    // $ExpectError
+    // $FlowFixMe
     expect(() => harness({name})).toThrow();
   });
 });

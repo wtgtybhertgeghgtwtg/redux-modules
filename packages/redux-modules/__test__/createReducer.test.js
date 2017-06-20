@@ -2,7 +2,7 @@
 import {invokeMap} from 'lodash';
 import createReducer from '../src/createReducer';
 
-import type {Action} from 'types/redux-modules';
+import type {Action} from '../src/types';
 
 describe('the reducer returned by `createReducer`', () => {
   const initialState = {

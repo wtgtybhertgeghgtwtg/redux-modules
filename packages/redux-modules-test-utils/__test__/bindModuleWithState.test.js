@@ -1,8 +1,6 @@
 // @flow
 import bindModuleWithState, {type BoundModuleWithState} from '../src/bindModuleWithState';
-import createModule from '../../redux-modules/src';
-
-import type {ReduxModule} from 'types/redux-modules';
+import createModule, {type ReduxModule} from '../../redux-modules/src';
 
 type State = {
   propOne: number,

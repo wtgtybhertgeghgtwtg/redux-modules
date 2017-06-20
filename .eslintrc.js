@@ -1,5 +1,6 @@
 // @flow
 
+// "Inspired by" Jest's `.eslintrc.js`
 module.exports = {
   'extends': [
     'fb-strict',
@@ -14,16 +15,10 @@ module.exports = {
     'max-len': 0,
     'no-multiple-empty-lines': 1,
     'import/no-duplicates': 2,
-    'import/no-unresolved': [2, { 'ignore': ['^types/'] }],
-    // This has to be disabled until all type and module imports are combined
-    // https://github.com/benmosher/eslint-plugin-import/issues/645
-    'import/order': 0,
-    // These has to be disabled until the whole code base is converted to ESM
-    'import/default': 0,
+    'import/no-unresolved': [2, { 'ignore': ['^@wtg/'] }],
     'import/named': 0,
   },
   'plugins': [
-    'markdown',
     'import'
   ]
 };

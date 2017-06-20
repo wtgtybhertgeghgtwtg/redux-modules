@@ -1,5 +1,5 @@
 // @flow
-import type {ActionCreator} from 'types/redux-modules';
+import type {ActionCreator} from './types';
 
 // Really rolls off the tongue, huh?
 export default function createActionCreator<P, M>(type: string) : ActionCreator<P, M> {
