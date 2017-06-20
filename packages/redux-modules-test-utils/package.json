@@ -15,5 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^4.2.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
