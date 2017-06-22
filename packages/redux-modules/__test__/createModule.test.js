@@ -1,4 +1,4 @@
-// @flow
+
 import createModule, {type createModuleOptions} from '../src/createModule';
 
 import type {Transformations} from '../src/types';

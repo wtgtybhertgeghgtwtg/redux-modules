@@ -7,22 +7,22 @@ import {createStore} from 'redux';
 import createRegisterModules from './createRegisterModules';
 
 import type {Store} from 'redux';
-import type {Action, ReduxModule} from '@wtg/redux-modules';
+import type {ReduxModule} from '@wtg/redux-modules';
 
 export type ProviderProps<S> = {
-  store?: Store<S, Action<*, *>>,
+  store?: Store<S, *>,
   children?: any,
 };
 
 export type ProviderContext<S> = {
   registerModule: Function,
-  store: Store<S, Action<*, *>>,
+  store: Store<S, *>,
 };
 
 export default class Provider<S: Object> extends Component<void, ProviderProps<S>, void> {
   props: ProviderProps<S>;
-  registerModules: (modules: Array<ReduxModule<*, *>>) => void;
-  store: Store<S, Action<*, *>>;
+  registerModules: (modules: Array<ReduxModule<*, *, *>>) => void;
+  store: Store<S, *>;
 
   static childContextTypes = {
     registerModule: PropTypes.func.isRequired,
@@ -30,7 +30,7 @@ export default class Provider<S: Object> extends Component<void, ProviderProps<S
 
   constructor(props: ProviderProps<S>, context: ProviderContext<S>) {
     super(props, context);
-    this.store = props.store || createStore((state: S) => state);
+    this.store = props.store || createStore(state => state);
     this.registerModules = createRegisterModules(this.store);
   }
 

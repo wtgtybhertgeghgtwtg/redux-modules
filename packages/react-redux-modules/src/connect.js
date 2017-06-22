@@ -8,7 +8,7 @@ import createImplicitSelector from './createImplicitSelector';
 
 import type {ReduxModule} from '@wtg/redux-modules';
 
-type Modules = Array<ReduxModule<*, *>> | ReduxModule<*, *>;
+type Modules = Array<ReduxModule<*, *, *>> | ReduxModule<*, *, *>;
 type Selector = (state: Object) => Object;
 
 // Sugar and validation over `connectComponent`.

@@ -1,18 +1,20 @@
 // @flow
+import type {
+  ActionCreator,
+  ActionCreators,
+  ReduxModule,
+} from '@wtg/redux-modules';
 import {mapValues} from 'lodash';
 
-import type {Reducer} from 'redux';
+export type BoundModuleWithState<S, A> = $ObjMap<A, ExtractBoundModuleWithState<S>>;
 
-import type {Action, ActionCreator, ReduxModule, Transformations} from '@wtg/redux-modules';
+type ExtractBoundModuleWithState<S> = <P, M>(ActionCreator<P, M>) => (payload?: P, meta?: M) => S;
 
-export type BoundModuleWithState<S, T> = $ObjMap<T, ExtractBoundModuleWithState<S>>;
-
-type ExtractBoundModuleWithState<S> = <P, M>(Reducer<*, Action<P, M>>) => (payload?: P, meta?: M) => S;
-
-export default function bindModuleWithState<S: Object, T: Transformations<S>>(reduxModule: ReduxModule<S, T>, state: S): BoundModuleWithState<S, T> {
+export default function bindModuleWithState<S: Object, A: ActionCreators>(reduxModule: ReduxModule<S, A, *>, state: S): BoundModuleWithState<S, A> {
   const {actionCreators, reducer} = reduxModule;
-  function bindActionCreator<P, M>(actionCreator: ActionCreator<P, M>) {
+  // Yep, gotta append everything with "WithState".
+  function bindActionCreatorWithState<P, M>(actionCreator: ActionCreator<P, M>) {
     return (payload?: P, meta?: M) => reducer(state, actionCreator(payload, meta));
   }
-  return mapValues(actionCreators, bindActionCreator);
+  return mapValues(actionCreators, bindActionCreatorWithState);
 }
