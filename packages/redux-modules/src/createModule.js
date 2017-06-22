@@ -13,8 +13,15 @@ import type {
 
 export default function createModule<S: Object, T: Transformations<S>>(
   options: CreateModuleOptions<S, T>,
-  moduleCreator: ModuleCreator<S, $ObjMap<T, ExtractCanonicalTransformationType>> = defaultModuleCreator,
-): ReduxModule<S, $ObjMap<T, ExtractActionCreatorType>, $ObjMap<T, ExtractTypeType>> {
+  moduleCreator: ModuleCreator<
+    S,
+    $ObjMap<T, ExtractCanonicalTransformationType>,
+  > = defaultModuleCreator,
+): ReduxModule<
+  S,
+  $ObjMap<T, ExtractActionCreatorType>,
+  $ObjMap<T, ExtractTypeType>,
+> {
   const canonicalOptions = canonicalizeOptions(options);
   return moduleCreator(canonicalOptions);
 }

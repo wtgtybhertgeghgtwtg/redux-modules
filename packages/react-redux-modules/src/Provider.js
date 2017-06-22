@@ -19,7 +19,11 @@ export type ProviderContext<S> = {
   store: Store<S, *>,
 };
 
-export default class Provider<S: Object> extends Component<void, ProviderProps<S>, void> {
+export default class Provider<S: Object> extends Component<
+  void,
+  ProviderProps<S>,
+  void,
+> {
   props: ProviderProps<S>;
   registerModules: (modules: Array<ReduxModule<*, *, *>>) => void;
   store: Store<S, *>;

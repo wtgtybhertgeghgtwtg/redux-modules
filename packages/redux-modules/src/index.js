@@ -4,12 +4,7 @@ import createModule from './createModule';
 import createReducer from './createReducer';
 import formatType from './formatType';
 
-export {
-  createActionCreator,
-  createModule,
-  createReducer,
-  formatType,
-};
+export {createActionCreator, createModule, createReducer, formatType};
 
 export default createModule;
 

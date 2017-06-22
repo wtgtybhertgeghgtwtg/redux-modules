@@ -10,11 +10,19 @@ import type {
   Transformations,
 } from './types';
 
-export default function canonicalizeOptions<S: Object, T: Transformations<S>>(options: CreateModuleOptions<S, T>): CanonicalCreateModuleOptions<S, $ObjMap<T, ExtractCanonicalTransformationType>> {
-  const {initialState, name, transformations = { }} = options;
+export default function canonicalizeOptions<S: Object, T: Transformations<S>>(
+  options: CreateModuleOptions<S, T>,
+): CanonicalCreateModuleOptions<
+  S,
+  $ObjMap<T, ExtractCanonicalTransformationType>,
+> {
+  const {initialState, name, transformations = {}} = options;
   invariant(name, '`name` must be defined.');
   invariant(isObjectLike(initialState), '`initialState` must be an object.');
-  const canonicalTransformations = mapValues(transformations, canonicalizeTransformation);
+  const canonicalTransformations = mapValues(
+    transformations,
+    canonicalizeTransformation,
+  );
   return {
     ...options,
     transformations: canonicalTransformations,

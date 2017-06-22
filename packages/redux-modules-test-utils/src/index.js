@@ -2,7 +2,4 @@
 import bindModule from './bindModule';
 import bindModuleWithState from './bindModuleWithState';
 
-export {
-  bindModule,
-  bindModuleWithState,
-};
+export {bindModule, bindModuleWithState};

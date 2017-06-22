@@ -26,6 +26,7 @@
     "jest": "^20.0.4",
     "lerna": "^2.0.0-rc.5",
     "lodash": "^4.2.1",
+    "prettier": "^1.4.4",
     "react": "^15.6.1",
     "react-redux": "^5.0.5",
     "redux": "^3.7.0",
@@ -34,6 +35,8 @@
   },
   "scripts": {
     "postinstall": "lerna bootstrap",
+    "prettier:lint": "prettier --l --no-bracket-spacing --single-quote --trailing-comma all \"packages/**/src/*.js\"",
+    "prettier:write": "prettier --no-bracket-spacing --single-quote --trailing-comma all --write \"packages/**/src/*.js\"",
     "lint": "eslint packages/**/src/*.js packages/**/__test__/*.js",
     "lint:fix": "eslint packages/**/src/*.js packages/**/__test__/*.js --fix",
     "flow": "flow",
