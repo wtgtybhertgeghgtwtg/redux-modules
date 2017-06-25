@@ -8,59 +8,57 @@ export type Action<P, M> = {
   meta?: M,
 };
 
-// Genericize?
 export type ActionCreator<P, M> = (payload?: P, meta?: M) => Action<P, M>;
 
-export type ActionCreators = {
-  [name: string]: ActionCreator<*, *>,
-};
+export type ActionCreators = StringMap<ActionCreator<*, *>>;
 
-export type CanonicalCreateModuleOptions<
+export type CreateModuleOptions<
   S: Object,
-  T: CanonicalTransformations<S>,
+  T: Transformation<S, *, *>,
+  C: ImplicitTransformations<S, T>,
 > = {
   initialState: S,
   name: string,
-  transformations: T,
-};
-
-export type CanonicalTransformation<S: Object, P, M> = {
-  reducer: Reducer<S, Action<P, M>>,
-};
-
-export type CanonicalTransformations<S: Object> = {
-  [name: string]: CanonicalTransformation<S, *, *>,
-};
-
-// CanonicalTransformationsFromTransformations<T> is actually the exact same length as $ObjMap<T, ExtractCanonicalTransformationType>.
-export type CanonicalTransformationsFromTransformations<
-  T: Transformations<*>,
-> = $ObjMap<T, ExtractCanonicalTransformationType>;
-
-export type CreateModuleOptions<S, T: Transformations<S>> = {
-  initialState: S,
-  name: string,
-  transformations?: T,
+  transformations?: C,
 };
 
 export type ExtractActionCreatorType = <P, M>(
-  Transformation<*, P, M>,
+  Reducer<*, Action<P, M>> | Transformation<*, P, M>,
 ) => ActionCreator<P, M>;
 
-export type ExtractCanonicalTransformationType = <S, P, M>(
-  Transformation<S, P, M>,
-) => CanonicalTransformation<S, P, M>;
+export type ExtractSuperTransformation = <
+  S: Object,
+  P,
+  M,
+  T: Transformation<S, P, M>,
+>(
+  ImplicitTransformation<S, P, M, T>,
+) => SuperTransformation<S, P, M, T>;
 
 // This is dumb.
 export type ExtractTypeType = any => string;
 
-export type ModuleCreator<S: Object, C: CanonicalTransformations<S>> = (
-  options: CanonicalCreateModuleOptions<S, C>,
-) => ReduxModule<
-  S,
-  $ObjMap<C, ExtractActionCreatorType>,
-  $ObjMap<C, ExtractTypeType>,
->;
+export type ImplicitTransformation<
+  S: Object,
+  P,
+  M,
+  T: Transformation<S, P, M>,
+> = Reducer<S, Action<P, M>> | SuperTransformation<S, P, M, T>;
+
+export type ImplicitTransformations<
+  S: Object,
+  T: Transformation<S, *, *>,
+> = StringMap<ImplicitTransformation<S, *, *, T>>;
+
+export type NormalizedCreateModuleOptions<
+  S: Object,
+  T: Transformation<S, *, *>,
+  C: SuperTransformations<S, T>,
+> = {
+  initialState: S,
+  name: string,
+  transformations: C,
+};
 
 export type ReducerMap<S> = Map<string, Reducer<S, *>>;
 
@@ -71,15 +69,24 @@ export type ReduxModule<S: Object, A: ActionCreators, T: Types> = {
   types: T,
 };
 
-export type Transformation<S: Object, P, M> =
-  | CanonicalTransformation<S, P, M>
-  | Reducer<S, Action<P, M>>;
-
-export type Transformations<S: Object> = {
-  [name: string]: Transformation<S, *, *>,
+export type StringMap<T> = {
+  [name: string]: T,
 };
 
-// This one is just dumb.
-export type Types = {
-  [name: string]: string,
+export type SuperTransformation<
+  S: Object,
+  P,
+  M,
+  T: Transformation<S, P, M>,
+> = Transformation<S, P, M> & $Shape<T>;
+
+export type SuperTransformations<S, T: Transformation<S, *, *>> = StringMap<
+  SuperTransformation<S, *, *, T>,
+>;
+
+export type Transformation<S: Object, P, M> = {
+  reducer: Reducer<S, Action<P, M>>,
 };
+
+// This is also dumb.
+export type Types = StringMap<string>;

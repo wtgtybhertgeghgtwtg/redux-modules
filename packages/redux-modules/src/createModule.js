@@ -1,27 +1,47 @@
 // @flow
-import canonicalizeOptions from './canonicalizeOptions';
 import defaultModuleCreator from './defaultModuleCreator';
+import normalizeOptions from './normalizeOptions';
 import type {
   CreateModuleOptions,
   ExtractActionCreatorType,
-  ExtractCanonicalTransformationType,
+  ExtractSuperTransformation,
   ExtractTypeType,
-  ModuleCreator,
+  ImplicitTransformations,
+  NormalizedCreateModuleOptions,
   ReduxModule,
-  Transformations,
+  SuperTransformations,
+  Transformation,
 } from './types';
 
-export default function createModule<S: Object, T: Transformations<S>>(
-  options: CreateModuleOptions<S, T>,
+export type ModuleCreator<
+  S: Object,
+  T: Transformation<S, *, *>,
+  C: SuperTransformations<S, T>,
+> = (
+  options: NormalizedCreateModuleOptions<S, T, C>,
+) => ReduxModule<
+  S,
+  $ObjMap<C, ExtractActionCreatorType>,
+  $ObjMap<C, ExtractTypeType>,
+>;
+
+export default function createModule<
+  S: Object,
+  T: Transformation<S, *, *>,
+  C: ImplicitTransformations<S, T>,
+>(
+  options: CreateModuleOptions<S, T, C>,
   moduleCreator: ModuleCreator<
     S,
-    $ObjMap<T, ExtractCanonicalTransformationType>,
+    T,
+    $ObjMap<C, ExtractSuperTransformation>,
   > = defaultModuleCreator,
 ): ReduxModule<
   S,
-  $ObjMap<T, ExtractActionCreatorType>,
-  $ObjMap<T, ExtractTypeType>,
+  $ObjMap<$ObjMap<C, ExtractSuperTransformation>, ExtractActionCreatorType>,
+  // ExtractTypeType takes any, so it doesn't have to be extracted.
+  $ObjMap<C, ExtractTypeType>,
 > {
-  const canonicalOptions = canonicalizeOptions(options);
-  return moduleCreator(canonicalOptions);
+  const normalOptions = normalizeOptions(options);
+  return moduleCreator(normalOptions);
 }

@@ -4,7 +4,7 @@ import {combineReducers, type Reducer, type Store} from 'redux';
 
 import type {ReduxModule} from '@wtg/redux-modules';
 
-export default function createRegisterModules<S: Object>(store: Store<*, *>) {
+export default function createRegisterModules<S>(store: Store<*, *>) {
   const registry: {[name: string]: Reducer<*, *>} = Object.create(null);
   return function registerModules(modules: Array<ReduxModule<*, *, *>>) {
     const unregisteredModules: Array<ReduxModule<*, *, *>> = modules.filter(

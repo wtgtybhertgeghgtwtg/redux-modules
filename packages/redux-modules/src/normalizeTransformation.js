@@ -2,12 +2,21 @@
 import invariant from 'invariant';
 import {isObjectLike} from 'lodash';
 
-import type {CanonicalTransformation, Transformation} from './types';
+import type {
+  ImplicitTransformation,
+  SuperTransformation,
+  Transformation,
+} from './types';
 
-export default function canonicalizeTransformation<S: Object, P, M>(
-  transformation: Transformation<S, P, M>,
+export default function normalizeTransformation<
+  S: Object,
+  P,
+  M,
+  T: Transformation<S, P, M>,
+>(
+  transformation: ImplicitTransformation<S, P, M, T>,
   name: string,
-): CanonicalTransformation<S, P, M> {
+): SuperTransformation<S, P, M, T> {
   if (typeof transformation === 'function') {
     return {
       reducer: transformation,
