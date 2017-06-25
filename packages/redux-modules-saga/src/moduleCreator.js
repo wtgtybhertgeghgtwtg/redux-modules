@@ -14,7 +14,7 @@ import type {ReduxModule, Transformation} from './types';
 
 export default function moduleCreator<
   S: Object,
-  T: Transformation<S, *, *, *>,
+  T: Transformation<S, *, *, *, *>,
   C: SuperTransformations<S, T>,
 >(
   options: NormalizedCreateModuleOptions<S, T, C>,
@@ -37,7 +37,7 @@ export default function moduleCreator<
     const {reducer, sagaCreator} = transformation;
     reducerMap.set(types[actionName], reducer);
     if (sagaCreator) {
-      sagas[actionName] = sagaCreator(actionCreators);
+      sagas[actionName] = sagaCreator({actionCreators, types});
     }
   });
   const reducer = createReducer(reducerMap, initialState);

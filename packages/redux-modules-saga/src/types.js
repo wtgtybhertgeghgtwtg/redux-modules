@@ -17,18 +17,29 @@ export type ReduxModule<S: Object, A: ActionCreators, T: Types> = {
   sagas: Sagas,
 };
 
-export type Saga<P, M> = (action: Action<P, M>) => Generator<*, void, *>;
+export type Saga<P, M> = () => Generator<*, void, *>;
 
-export type SagaCreator<A: ActionCreators, P, M> = (
+export type SagaCreator<A: ActionCreators, T: Types, P, M> = ({
   actionCreators: A,
-) => Saga<P, M>;
+  types: T,
+}) => Saga<P, M>;
+
+export type SagaCreatorProps<
+  S: Object,
+  A: ActionCreators,
+  T: Types,
+  R: ReduxModule<S, A, T>,
+> = {
+  actionCreators: A,
+  types: T,
+};
 
 export type Sagas = {
   [name: string]: Saga<*, *>,
 };
 
-export type Transformation<S: Object, A: ActionCreators, P, M> = {
+export type Transformation<S: Object, A: ActionCreators, T: Types, P, M> = {
   // ...BaseTransformation<S, P, M>,
   reducer: Reducer<S, Action<P, M>>,
-  sagaCreator?: SagaCreator<A, P, M>,
+  sagaCreator?: SagaCreator<A, T, P, M>,
 };
