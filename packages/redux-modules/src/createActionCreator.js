@@ -2,7 +2,9 @@
 import type {ActionCreator} from './types';
 
 // Really rolls off the tongue, huh?
-export default function createActionCreator<P, M>(type: string) : ActionCreator<P, M> {
+export default function createActionCreator<P, M>(
+  type: string,
+): ActionCreator<P, M> {
   return function actionCreator(payload?: P, meta?: M) {
     return {
       error: payload instanceof Error,

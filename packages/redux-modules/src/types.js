@@ -10,17 +10,83 @@ export type Action<P, M> = {
 
 export type ActionCreator<P, M> = (payload?: P, meta?: M) => Action<P, M>;
 
-export type ExtractActionCreatorType = <P, M>(Reducer<*, Action<P, M>>) => ActionCreator<P, M>;
+export type ActionCreators = StringMap<ActionCreator<*, *>>;
+
+export type CreateModuleOptions<
+  S: Object,
+  T: Transformation<S, *, *>,
+  C: ImplicitTransformations<S, T>,
+> = {
+  initialState: S,
+  name: string,
+  transformations?: C,
+};
+
+export type ExtractActionCreatorType = <P, M>(
+  Reducer<*, Action<P, M>> | Transformation<*, P, M>,
+) => ActionCreator<P, M>;
+
+export type ExtractSuperTransformation = <
+  S: Object,
+  P,
+  M,
+  T: Transformation<S, P, M>,
+>(
+  ImplicitTransformation<S, P, M, T>,
+) => SuperTransformation<S, P, M, T>;
+
+// This is dumb.
+export type ExtractTypeType = any => string;
+
+export type ImplicitTransformation<
+  S: Object,
+  P,
+  M,
+  T: Transformation<S, P, M>,
+> = Reducer<S, Action<P, M>> | SuperTransformation<S, P, M, T>;
+
+export type ImplicitTransformations<
+  S: Object,
+  T: Transformation<S, *, *>,
+> = StringMap<ImplicitTransformation<S, *, *, T>>;
+
+export type NormalizedCreateModuleOptions<
+  S: Object,
+  T: Transformation<S, *, *>,
+  C: SuperTransformations<S, T>,
+> = {
+  initialState: S,
+  name: string,
+  transformations: C,
+};
 
 export type ReducerMap<S> = Map<string, Reducer<S, *>>;
 
-export type ReduxModule<S: Object, T: Transformations<S>> = {
-  actionCreators: $ObjMap<T, ExtractActionCreatorType>,
+export type ReduxModule<S: Object, A: ActionCreators, T: Types> = {
+  actionCreators: A,
   name: string,
   reducer: Reducer<S, *>,
-  types: $ObjMap<T, (transformation: any) => string>,
+  types: T,
 };
 
-export type Transformations<S: Object> = {
-  [name: string]: Reducer<S, Action<*, *>>,
+export type StringMap<T> = {
+  [name: string]: T,
 };
+
+export type SuperTransformation<
+  S: Object,
+  P,
+  M,
+  T: Transformation<S, P, M>,
+> = Transformation<S, P, M> & $Shape<T>;
+
+export type SuperTransformations<S, T: Transformation<S, *, *>> = StringMap<
+  SuperTransformation<S, *, *, T>,
+>;
+
+export type Transformation<S: Object, P, M> = {
+  reducer: Reducer<S, Action<P, M>>,
+};
+
+// This is also dumb.
+export type Types = StringMap<string>;

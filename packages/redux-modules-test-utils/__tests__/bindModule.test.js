@@ -1,5 +1,5 @@
 // @flow
-import bindModule, {type BoundModule} from '../src/bindModule';
+import bindModule from '../src/bindModule';
 import createModule from '../../redux-modules/src';
 
 type State = {
@@ -24,7 +24,7 @@ const reduxModule = createModule({
   name: 'test',
   transformations,
 });
-const boundModule: BoundModule<State, typeof transformations> = bindModule(reduxModule);
+const boundModule = bindModule(reduxModule);
 
 describe('the object returned by `bindModule`', () => {
   it('matches the keys of `actionCreators`.', () => {

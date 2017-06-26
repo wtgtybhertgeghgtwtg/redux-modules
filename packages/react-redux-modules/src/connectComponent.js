@@ -7,10 +7,17 @@ import {connect as reactReduxConnect, type MapStateToProps} from 'react-redux';
 
 import type {Action, ReduxModule} from '@wtg/redux-modules';
 
-export default function connectComponent<S, OP: Object, SP: Object>(selector: MapStateToProps<S, OP, SP>, modules: Array<ReduxModule<*, *>>) {
+export default function connectComponent<S: Object, OP: Object, SP: Object>(
+  selector: MapStateToProps<S, OP, SP>,
+  modules: Array<ReduxModule<*, *, *>>,
+) {
   const actionCreators = Object.assign({}, ...map(modules, 'actionCreators'));
-  const mapDispatchToProps = (dispatch: Dispatch<Action<*, *>>) => bindActionCreators(actionCreators, dispatch);
-  const reactReduxConnectComponent = reactReduxConnect(selector, mapDispatchToProps);
+  const mapDispatchToProps = (dispatch: Dispatch<Action<*, *>>) =>
+    bindActionCreators(actionCreators, dispatch);
+  const reactReduxConnectComponent = reactReduxConnect(
+    selector,
+    mapDispatchToProps,
+  );
   return (NestedComponent: Class<React$Component<void, OP, void>>) => {
     class Connect extends Component {
       static contextTypes = {

@@ -1,10 +1,26 @@
 // @flow
+import createActionCreator from './createActionCreator';
 import createModule from './createModule';
+import createReducer from './createReducer';
+import formatType from './formatType';
 
-export {
-  createModule,
-};
+export {createActionCreator, createModule, createReducer, formatType};
 
 export default createModule;
 
-export type {Action, ActionCreator, ExtractActionCreatorType, ReducerMap, ReduxModule, Transformations} from './types';
+export type {
+  Action,
+  ActionCreator,
+  ActionCreators,
+  ExtractActionCreatorType,
+  ExtractTypeType,
+  ImplicitTransformation,
+  ImplicitTransformations,
+  NormalizedCreateModuleOptions,
+  ReducerMap,
+  ReduxModule,
+  SuperTransformation,
+  SuperTransformations,
+  Transformation,
+  Types,
+} from './types';

@@ -1,6 +1,6 @@
 // @flow
-import bindModuleWithState, {type BoundModuleWithState} from '../src/bindModuleWithState';
-import createModule, {type ReduxModule} from '../../redux-modules/src';
+import bindModuleWithState from '../src/bindModuleWithState';
+import createModule from '../../redux-modules/src';
 
 type State = {
   propOne: number,
@@ -8,7 +8,7 @@ type State = {
   propThree: ?boolean,
 };
 
-const initialState = {
+const initialState: State = {
   propOne: 1,
   propThree: false,
   propTwo: 'two',
@@ -19,7 +19,7 @@ const transformations = {
   setPropThree: (state, action) => ({...state, propThree: action.meta}),
   setPropTwo: (state, action) => ({...state, propTwo: action.payload}),
 };
-const reduxModule: ReduxModule<State, typeof transformations> = createModule({
+const reduxModule = createModule({
   initialState,
   name: 'test',
   transformations,
@@ -30,7 +30,7 @@ const testState = {
   propThree: null,
   propTwo: 'three',
 };
-const boundModule: BoundModuleWithState<State, typeof transformations> = bindModuleWithState(reduxModule, testState);
+const boundModule = bindModuleWithState(reduxModule, testState);
 
 describe('the object returned by `bindModule`', () => {
   it('matches the keys of `actionCreators`.', () => {

@@ -1,4 +1,3 @@
-// @flow
 import createImplicitSelector from '../src/createImplicitSelector';
 import createModule from '../../redux-modules/src';
 
