@@ -26,11 +26,11 @@
     "jest": "^20.0.4",
     "lerna": "^2.0.0-rc.5",
     "lodash": "^4.2.1",
-    "powerset": "^0.0.1",
     "prettier": "^1.4.4",
+    "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-redux": "^5.0.5",
-    "redux": "^3.7.0",
+    "redux": "^3.7.1",
     "redux-saga": "^0.15.4",
     "rimraf": "^2.6.1"
   },
