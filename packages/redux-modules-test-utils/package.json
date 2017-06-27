@@ -1,6 +1,6 @@
 {
   "name": "@wtg/redux-modules-test-utils",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Test utilities for `@wtg/redux-modules`.",
   "main": "lib/index.js",
   "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/redux-modules-test-utils",
