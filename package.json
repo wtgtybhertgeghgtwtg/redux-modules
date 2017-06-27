@@ -38,7 +38,7 @@
     "postinstall": "lerna bootstrap",
     "prettier:lint": "prettier --l --no-bracket-spacing --single-quote --trailing-comma all \"packages/**/*.js\"",
     "prettier:write": "prettier --no-bracket-spacing --single-quote --trailing-comma all --write \"packages/**/*.js\"",
-    "lint": "eslint packages/**/*.js",
+    "lint": "eslint packages/**/src/*.js packages/**/__tests__/*.js",
     "lint:fix": "eslint packages/**/*.js --fix",
     "flow": "flow",
     "jest": "jest --coverage",
