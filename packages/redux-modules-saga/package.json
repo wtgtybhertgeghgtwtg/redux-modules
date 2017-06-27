@@ -1,5 +1,5 @@
 {
-  "name": "redux-modules-saga",
+  "name": "@wtg/redux-modules-saga",
   "version": "0.2.0",
   "description": "A module creator for `@wtg/redux-modules` that adds support for `redux-saga`.",
   "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/redux-modules-saga",
