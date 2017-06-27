@@ -2,7 +2,7 @@
 import type {
   Action,
   ActionCreators,
-  // ReduxModule as BaseReduxModule,
+  ReduxModule as BaseReduxModule,
   // Transformation as BaseTransformation,
   Types,
 } from '@wtg/redux-modules';
@@ -28,7 +28,7 @@ export type SagaCreatorProps<
   S: Object,
   A: ActionCreators,
   T: Types,
-  R: ReduxModule<S, A, T>,
+  R: BaseReduxModule<S, A, T>,
 > = {
   actionCreators: A,
   types: T,

@@ -7,23 +7,10 @@ import type {
   ExtractSuperTransformation,
   ExtractTypeType,
   ImplicitTransformations,
-  NormalizedCreateModuleOptions,
+  ModuleCreator,
   ReduxModule,
-  SuperTransformations,
   Transformation,
 } from './types';
-
-export type ModuleCreator<
-  S: Object,
-  T: Transformation<S, *, *>,
-  C: SuperTransformations<S, T>,
-> = (
-  options: NormalizedCreateModuleOptions<S, T, C>,
-) => ReduxModule<
-  S,
-  $ObjMap<C, ExtractActionCreatorType>,
-  $ObjMap<C, ExtractTypeType>,
->;
 
 export default function createModule<
   S: Object,

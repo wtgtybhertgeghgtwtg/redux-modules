@@ -50,6 +50,18 @@ export type ImplicitTransformations<
   T: Transformation<S, *, *>,
 > = StringMap<ImplicitTransformation<S, *, *, T>>;
 
+export type ModuleCreator<
+  S: Object,
+  T: Transformation<S, *, *>,
+  C: SuperTransformations<S, T>,
+> = (
+  options: NormalizedCreateModuleOptions<S, T, C>,
+) => ReduxModule<
+  S,
+  $ObjMap<C, ExtractActionCreatorType>,
+  $ObjMap<C, ExtractTypeType>,
+>;
+
 export type NormalizedCreateModuleOptions<
   S: Object,
   T: Transformation<S, *, *>,
