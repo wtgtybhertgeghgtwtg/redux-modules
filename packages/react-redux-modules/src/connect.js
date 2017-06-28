@@ -1,7 +1,6 @@
 // @flow
-// TODO: Write definitions for `arrify`.
-import arrify from 'arrify';
 import invariant from 'invariant';
+import {castArray} from 'lodash';
 
 import connectComponent from './connectComponent';
 import createImplicitSelector from './createImplicitSelector';
@@ -18,9 +17,9 @@ export default function connect(
 ) {
   if (!modules) {
     invariant(typeof selector === 'object', 'Expected Redux modules.');
-    modules = arrify(selector);
+    modules = castArray(selector);
     selector = createImplicitSelector(modules);
   }
   invariant(typeof selector === 'function', 'Expected selector.');
-  return connectComponent(selector, arrify(modules));
+  return connectComponent(selector, castArray(modules));
 }
