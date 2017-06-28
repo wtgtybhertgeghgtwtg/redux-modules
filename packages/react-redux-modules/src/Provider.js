@@ -13,7 +13,7 @@ export type CreateRegisterModules<S, A> = (
 
 export type ProviderProps<S, A> = {
   children?: any,
-  createRegisterModules: CreateRegisterModules<S, A>,
+  createRegisterModules?: CreateRegisterModules<S, A>,
   store?: Store<S, A>,
 };
 
