@@ -1,6 +1,6 @@
 {
   "name": "@wtg/redux-modules-saga",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A module creator for `@wtg/redux-modules` that adds support for `redux-saga`.",
   "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/redux-modules-saga",
   "author": "Matthew Fernando Garcia",
