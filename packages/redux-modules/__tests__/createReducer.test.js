@@ -64,6 +64,7 @@ describe('the reducer returned by `createReducer`', () => {
   });
 
   it('uses `initialState` for its initial state.', () => {
+    // $FlowFixMe
     const outState = reducer(undefined, fakeAction);
     expect(outState).toBe(initialState);
   });

@@ -11,15 +11,10 @@ import type {
   NormalizedCreateModuleOptions,
   ReduxModule,
   SuperTransformations,
-  Transformation,
 } from '../src/types';
 
-function harness<
-  S: Object,
-  T: Transformation<S, *, *>,
-  C: SuperTransformations<S, T>,
->(
-  options: NormalizedCreateModuleOptions<S, T, C>,
+function harness<S: Object, C: SuperTransformations<S, *>>(
+  options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,
   $ObjMap<C, ExtractActionCreatorType>,
@@ -94,13 +89,13 @@ describe('defaultModuleCreator({initialState, name, transformations})', () => {
     propOne: state.propOne + 1,
   }));
   const setPropThreeReducer = jest.fn(
-    (state: State, action: Action<*, boolean>) => ({
+    (state: State, action: Action<void, boolean>) => ({
       ...state,
       propThree: action.meta,
     }),
   );
   const setPropTwoReducer = jest.fn(
-    (state: State, action: Action<string, *>) => ({
+    (state: State, action: Action<string, void>) => ({
       ...state,
       propTwo: action.payload,
     }),
@@ -179,7 +174,7 @@ describe('defaultModuleCreator({initialState, name, transformations})', () => {
   });
 
   describe('a transformation that takes `meta`.', () => {
-    const testAction = testModule.actionCreators.setPropThree(true);
+    const testAction = testModule.actionCreators.setPropThree(undefined, true);
 
     it('transforms `state`.', () => {
       const testState: State = {

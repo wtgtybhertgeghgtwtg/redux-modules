@@ -4,21 +4,17 @@ import {forEach} from 'lodash';
 
 import createModule from '../src/createModule';
 import type {
+  Action,
   ActionCreator,
   CreateModuleOptions,
   ExtractActionCreatorType,
   ExtractTypeType,
   ImplicitTransformations,
   ReduxModule,
-  Transformation,
 } from '../src/types';
 
-function harness<
-  S: Object,
-  T: Transformation<S, *, *>,
-  C: ImplicitTransformations<S, T>,
->(
-  options: CreateModuleOptions<S, T, C>,
+function harness<S: Object, C: ImplicitTransformations<S>>(
+  options: CreateModuleOptions<S, C>,
 ): ReduxModule<
   S,
   $ObjMap<C, ExtractActionCreatorType>,
@@ -75,6 +71,26 @@ function harness<
   return testModule;
 }
 
+const name = 'test';
+const initialState = {
+  propOne: 1,
+  propThree: ['three'],
+  propTwo: 'two',
+};
+const transformations = {
+  bumpPropOne: state => ({...state, propOne: state.propOne + 1}),
+  mergePropThree: (state, action: Action<Array<string>, void>) => ({
+    ...state,
+    propThree: [...state.propThree, action.payload],
+  }),
+  setPropTwo: {
+    reducer: (state, action: Action<string, void>) => ({
+      ...state,
+      propTwo: action.payload,
+    }),
+  },
+};
+
 describe('createModule without `name`.', () => {
   it('throws.', () => {
     // $FlowFixMe
@@ -84,32 +100,15 @@ describe('createModule without `name`.', () => {
 
 describe('createModule without `initialState`', () => {
   it('throws.', () => {
-    const name = 'test';
     // $FlowFixMe
     expect(() => harness({name})).toThrow();
   });
 });
 
 describe('createModule({initialState, name})', () => {
-  const name = 'test';
-  const initialState = {
-    propOne: 1,
-    propTwo: 'two',
-  };
   harness({initialState, name});
 });
 
 describe('createModule({initialState, name, transformations})', () => {
-  const name = 'test';
-  const initialState = {
-    propOne: 1,
-    propTwo: 'two',
-  };
-  const transformations = {
-    bumpPropOne: state => ({...state, propOne: state.propOne + 1}),
-    setPropTwo: {
-      reducer: (state, action) => ({...state, propTwo: action.payload}),
-    },
-  };
   harness({initialState, name, transformations});
 });

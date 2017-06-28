@@ -24,7 +24,7 @@ export default function bindModuleWithState<S: Object, A: ActionCreators>(
   function bindActionCreatorWithState<P, M>(
     actionCreator: ActionCreator<P, M>,
   ) {
-    return (payload?: P, meta?: M) =>
+    return (payload: P, meta: M) =>
       reducer(state, actionCreator(payload, meta));
   }
   return mapValues(actionCreators, bindActionCreatorWithState);

@@ -3,20 +3,16 @@ import type {Reducer} from 'redux';
 
 export type Action<P, M> = {
   type: string,
-  payload?: P,
-  error?: boolean,
-  meta?: M,
+  payload: P,
+  error: boolean,
+  meta: M,
 };
 
-export type ActionCreator<P, M> = (payload?: P, meta?: M) => Action<P, M>;
+export type ActionCreator<P, M> = (payload: P, meta: M) => Action<P, M>;
 
 export type ActionCreators = StringMap<ActionCreator<*, *>>;
 
-export type CreateModuleOptions<
-  S: Object,
-  T: Transformation<S, *, *>,
-  C: ImplicitTransformations<S, T>,
-> = {
+export type CreateModuleOptions<S: Object, C: ImplicitTransformations<S>> = {
   initialState: S,
   name: string,
   transformations?: C,
@@ -45,17 +41,16 @@ export type ImplicitTransformation<
   T: Transformation<S, P, M>,
 > = Reducer<S, Action<P, M>> | SuperTransformation<S, P, M, T>;
 
-export type ImplicitTransformations<
-  S: Object,
-  T: Transformation<S, *, *>,
-> = StringMap<ImplicitTransformation<S, *, *, T>>;
+export type ImplicitTransformations<S> = {
+  [name: string]:
+    | Reducer<S, any>
+    | {
+        reducer: Reducer<S, any>,
+      },
+};
 
-export type ModuleCreator<
-  S: Object,
-  T: Transformation<S, *, *>,
-  C: SuperTransformations<S, T>,
-> = (
-  options: NormalizedCreateModuleOptions<S, T, C>,
+export type ModuleCreator<S: Object, C: SuperTransformations<S, *>> = (
+  options: NormalizedCreateModuleOptions<S, C>,
 ) => ReduxModule<
   S,
   $ObjMap<C, ExtractActionCreatorType>,
@@ -64,8 +59,7 @@ export type ModuleCreator<
 
 export type NormalizedCreateModuleOptions<
   S: Object,
-  T: Transformation<S, *, *>,
-  C: SuperTransformations<S, T>,
+  C: SuperTransformations<S, *>,
 > = {
   initialState: S,
   name: string,

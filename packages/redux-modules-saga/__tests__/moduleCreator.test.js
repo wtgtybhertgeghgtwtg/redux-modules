@@ -1,5 +1,6 @@
 // @flow
 import type {
+  Action,
   ActionCreator,
   ExtractActionCreatorType,
   ExtractTypeType,
@@ -11,16 +12,12 @@ import {forEach} from 'lodash';
 import {take, put} from 'redux-saga/effects';
 
 import moduleCreator from '../src/moduleCreator';
-import type {ReduxModule, SagaCreatorProps, Transformation} from '../src/types';
+import type {ReduxModule, SagaCreatorProps} from '../src/types';
 
 jest.mock('@wtg/redux-modules');
 
-function harness<
-  S: Object,
-  T: Transformation<S, *, *, *, *>,
-  C: SuperTransformations<S, T>,
->(
-  options: NormalizedCreateModuleOptions<S, T, C>,
+function harness<S: Object, C: SuperTransformations<S, *>>(
+  options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,
   $ObjMap<C, ExtractActionCreatorType>,
@@ -83,7 +80,7 @@ describe('moduleCreator({initialState, name, transformations})', () => {
   };
   const transformations = {
     setColor: {
-      reducer: (state, {payload}) => ({
+      reducer: (state, {payload}: Action<string, void>) => ({
         ...state,
         color: payload,
         isWaiting: false,

@@ -1,8 +1,8 @@
 // flow-typed signature: 599948fccaf9881f9a36213f63311213
 // flow-typed version: 50ddf2f004/jest_v20.x.x/flow_>=v0.33.x
 
-type JestMockFn = {
-  (...args: Array<any>): any,
+type JestMockFn<A, R> = {
+  (...args: A): R,
   /**
    * An object for introspecting mock calls
    */
@@ -17,7 +17,7 @@ type JestMockFn = {
      * An array that contains all the object instances that have been
      * instantiated from this mock function.
      */
-    instances: mixed
+    instances: mixed,
   },
   /**
    * Resets all information stored in the mockFn.mock.calls and
@@ -44,13 +44,13 @@ type JestMockFn = {
    * that come from itself -- the only difference is that the implementation
    * will also be executed when the mock is called.
    */
-  mockImplementation(fn: Function): JestMockFn,
+  mockImplementation<A, R>(fn: (...args: A) => R): JestMockFn<A, R>,
   /**
    * Accepts a function that will be used as an implementation of the mock for
    * one call to the mocked function. Can be chained so that multiple function
    * calls produce different results.
    */
-  mockImplementationOnce(fn: Function): JestMockFn,
+  mockImplementationOnce(fn: Function): JestMockFn<*, *>,
   /**
    * Just a simple sugar function for returning `this`
    */
@@ -58,18 +58,18 @@ type JestMockFn = {
   /**
    * Deprecated: use jest.fn(() => value) instead
    */
-  mockReturnValue(value: any): JestMockFn,
+  mockReturnValue(value: any): JestMockFn<*, *>,
   /**
    * Sugar for only returning a value once inside your mock
    */
-  mockReturnValueOnce(value: any): JestMockFn
+  mockReturnValueOnce(value: any): JestMockFn<*, *>,
 };
 
 type JestAsymmetricEqualityType = {
   /**
    * A custom Jasmine equality tester
    */
-  asymmetricMatch(value: mixed): boolean
+  asymmetricMatch(value: mixed): boolean,
 };
 
 type JestCallsType = {
@@ -79,19 +79,19 @@ type JestCallsType = {
   count(): number,
   first(): mixed,
   mostRecent(): mixed,
-  reset(): void
+  reset(): void,
 };
 
 type JestClockType = {
   install(): void,
   mockDate(date: Date): void,
   tick(milliseconds?: number): void,
-  uninstall(): void
+  uninstall(): void,
 };
 
 type JestMatcherResult = {
   message?: string | (() => string),
-  pass: boolean
+  pass: boolean,
 };
 
 type JestMatcher = (actual: any, expected: any) => JestMatcherResult;
@@ -106,7 +106,7 @@ type JestPromiseType = {
    * Use resolves to unwrap the value of a fulfilled promise so any other
    * matcher can be chained. If the promise is rejected the assertion fails.
    */
-  resolves: JestExpectType
+  resolves: JestExpectType,
 };
 
 /**
@@ -273,7 +273,7 @@ type JestExpectType = {
    * Use .toThrowErrorMatchingSnapshot to test that a function throws a error
    * matching the most recent snapshot when it is called.
    */
-  toThrowErrorMatchingSnapshot(): void
+  toThrowErrorMatchingSnapshot(): void,
 };
 
 type JestObjectType = {
@@ -324,7 +324,7 @@ type JestObjectType = {
    * Returns a new, unused mock function. Optionally takes a mock
    * implementation.
    */
-  fn(implementation?: Function): JestMockFn,
+  fn<A, R>(implementation?: (...args: A) => R): JestMockFn<A, R>,
   /**
    * Determines if the given function is a mocked function.
    */
@@ -346,7 +346,7 @@ type JestObjectType = {
   mock(
     moduleName: string,
     moduleFactory?: any,
-    options?: Object
+    options?: Object,
   ): JestObjectType,
   /**
    * Resets the module registry - the cache of all required modules. This is
@@ -404,11 +404,11 @@ type JestObjectType = {
    * Creates a mock function similar to jest.fn but also tracks calls to
    * object[methodName].
    */
-  spyOn(object: Object, methodName: string): JestMockFn
+  spyOn(object: Object, methodName: string): JestMockFn<*, *>,
 };
 
 type JestSpyType = {
-  calls: JestCallsType
+  calls: JestCallsType,
 };
 
 /** Runs this function after every test inside this context */
@@ -451,7 +451,7 @@ declare var it: {
    * @param {string} Name of Test
    * @param {Function} Test
    */
-  concurrent(name: string, fn?: Function): ?Promise<void>
+  concurrent(name: string, fn?: Function): ?Promise<void>,
 };
 declare function fit(name: string, fn: Function): ?Promise<void>;
 /** An individual test unit */
@@ -470,7 +470,7 @@ declare var expect: {
   /** The object that you want to make assertions against */
   (value: any): JestExpectType & JestPromiseType & EnzymeMatchersType,
   /** Add additional Jasmine matchers to Jest's roster */
-  extend(matchers: { [name: string]: JestMatcher }): void,
+  extend(matchers: {[name: string]: JestMatcher}): void,
   /** Add a module that formats application-specific data structures. */
   addSnapshotSerializer(serializer: (input: Object) => string): void,
   assertions(expectedAssertions: number): void,
@@ -481,7 +481,7 @@ declare var expect: {
   objectContaining(value: Object): void,
   /** Matches any received string that contains the exact expected string. */
   stringContaining(value: string): void,
-  stringMatching(value: string | RegExp): void
+  stringMatching(value: string | RegExp): void,
 };
 
 // TODO handle return type
@@ -504,8 +504,8 @@ declare var jasmine: {
   createSpy(name: string): JestSpyType,
   createSpyObj(
     baseName: string,
-    methodNames: Array<string>
-  ): { [methodName: string]: JestSpyType },
+    methodNames: Array<string>,
+  ): {[methodName: string]: JestSpyType},
   objectContaining(value: Object): void,
-  stringMatching(value: string): void
+  stringMatching(value: string): void,
 };

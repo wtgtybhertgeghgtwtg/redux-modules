@@ -9,16 +9,15 @@ import type {
   ExtractTypeType,
   NormalizedCreateModuleOptions,
   ReduxModule,
-  StringMap,
+  SuperTransformations,
   Transformation,
 } from './types';
 
 export default function defaultModuleCreator<
   S: Object,
-  T: Transformation<S, *, *>,
-  C: StringMap<T>,
+  C: SuperTransformations<S, *>,
 >(
-  options: NormalizedCreateModuleOptions<S, T, C>,
+  options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,
   $ObjMap<C, ExtractActionCreatorType>,
@@ -28,12 +27,15 @@ export default function defaultModuleCreator<
   const actionCreators = Object.create(null);
   const types = Object.create(null);
   const reducerMap = new Map();
-  forEach(transformations, ({reducer}: T, actionName: string) => {
-    const type = formatType(name, actionName);
-    actionCreators[actionName] = createActionCreator(type);
-    types[actionName] = type;
-    reducerMap.set(type, reducer);
-  });
+  forEach(
+    transformations,
+    ({reducer}: Transformation<S, *, *>, actionName: string) => {
+      const type = formatType(name, actionName);
+      actionCreators[actionName] = createActionCreator(type);
+      types[actionName] = type;
+      reducerMap.set(type, reducer);
+    },
+  );
   const reducer = createReducer(reducerMap, initialState);
   return {
     actionCreators,

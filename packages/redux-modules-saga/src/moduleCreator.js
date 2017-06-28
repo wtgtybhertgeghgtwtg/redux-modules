@@ -17,7 +17,7 @@ export default function moduleCreator<
   T: Transformation<S, *, *, *, *>,
   C: SuperTransformations<S, T>,
 >(
-  options: NormalizedCreateModuleOptions<S, T, C>,
+  options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,
   $ObjMap<C, ExtractActionCreatorType>,

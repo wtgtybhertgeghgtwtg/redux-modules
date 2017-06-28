@@ -8,16 +8,14 @@ import type {
   ExtractSuperTransformation,
   ImplicitTransformations,
   NormalizedCreateModuleOptions,
-  Transformation,
 } from './types';
 
 export default function normalizeOptions<
   S: Object,
-  T: Transformation<S, *, *>,
-  C: ImplicitTransformations<S, T>,
+  C: ImplicitTransformations<S>,
 >(
-  options: CreateModuleOptions<S, T, C>,
-): NormalizedCreateModuleOptions<S, T, $ObjMap<C, ExtractSuperTransformation>> {
+  options: CreateModuleOptions<S, C>,
+): NormalizedCreateModuleOptions<S, $ObjMap<C, ExtractSuperTransformation>> {
   const {initialState, name, transformations = {}} = options;
   invariant(name, '`name` must be defined.');
   invariant(isObjectLike(initialState), '`initialState` must be an object.');

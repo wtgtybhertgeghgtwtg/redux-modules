@@ -5,7 +5,7 @@ import type {ActionCreator} from './types';
 export default function createActionCreator<P, M>(
   type: string,
 ): ActionCreator<P, M> {
-  return function actionCreator(payload?: P, meta?: M) {
+  return function actionCreator(payload: P, meta: M) {
     return {
       error: payload instanceof Error,
       meta,
