@@ -32,7 +32,7 @@ export default class Provider<S: Object, A> extends Component<
   store: Store<S, *>;
 
   static childContextTypes = {
-    registerModule: PropTypes.func.isRequired,
+    registerModules: PropTypes.func.isRequired,
   };
 
   constructor(props: ProviderProps<S, A>, context: ProviderContext<S, A>) {
