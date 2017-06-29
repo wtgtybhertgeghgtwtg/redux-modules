@@ -17,6 +17,7 @@ export type ReduxModule<S: Object, A: ActionCreators, T: Types> = {
   sagas: Sagas,
 };
 
+// eslint-disable-next-line
 export type Saga<P, M> = () => Generator<*, void, *>;
 
 export type SagaCreator<A: ActionCreators, T: Types, P, M> = ({
@@ -28,6 +29,7 @@ export type SagaCreatorProps<
   S: Object,
   A: ActionCreators,
   T: Types,
+  // eslint-disable-next-line
   R: BaseReduxModule<S, A, T>,
 > = {
   actionCreators: A,

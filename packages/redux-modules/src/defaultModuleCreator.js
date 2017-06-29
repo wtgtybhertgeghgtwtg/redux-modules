@@ -9,14 +9,11 @@ import type {
   ExtractTypeType,
   NormalizedCreateModuleOptions,
   ReduxModule,
-  SuperTransformations,
   Transformation,
+  Transformations,
 } from './types';
 
-export default function defaultModuleCreator<
-  S: Object,
-  C: SuperTransformations<S, *>,
->(
+export default function defaultModuleCreator<S: Object, C: Transformations<S>>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,

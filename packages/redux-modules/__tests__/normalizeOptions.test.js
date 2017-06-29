@@ -1,18 +1,17 @@
+// @flow
 import {forEach} from 'lodash';
 
 import normalizeOptions from '../src/normalizeOptions';
 import type {
   Action,
   CreateModuleOptions,
-  ExtractSuperTransformation,
   ImplicitTransformations,
-  NormalizedCreateModuleOptions,
   Transformation,
 } from '../src/types';
 
 function harness<S: Object, C: ImplicitTransformations<S>>(
   options: CreateModuleOptions<S, C>,
-): NormalizedCreateModuleOptions<S, $ObjMap<C, ExtractSuperTransformation>> {
+) {
   const {initialState, name, transformations} = options;
   const transformationKeys = transformations
     ? Object.keys(transformations)

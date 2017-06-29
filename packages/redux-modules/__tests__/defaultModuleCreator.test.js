@@ -10,10 +10,10 @@ import type {
   ExtractTypeType,
   NormalizedCreateModuleOptions,
   ReduxModule,
-  SuperTransformations,
+  Transformations,
 } from '../src/types';
 
-function harness<S: Object, C: SuperTransformations<S, *>>(
+function harness<S: Object, C: Transformations<S>>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,

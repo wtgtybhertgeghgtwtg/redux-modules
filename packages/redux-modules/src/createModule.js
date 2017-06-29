@@ -4,7 +4,7 @@ import normalizeOptions from './normalizeOptions';
 import type {
   CreateModuleOptions,
   ExtractActionCreatorType,
-  ExtractSuperTransformation,
+  ExtractTransformationType,
   ExtractTypeType,
   ImplicitTransformations,
   ModuleCreator,
@@ -15,7 +15,7 @@ export default function createModule<S: Object, C: ImplicitTransformations<S>>(
   options: CreateModuleOptions<S, C>,
   moduleCreator: ModuleCreator<
     S,
-    $ObjMap<C, ExtractSuperTransformation>,
+    $ObjMap<C, ExtractTransformationType>,
   > = defaultModuleCreator,
 ): ReduxModule<
   S,

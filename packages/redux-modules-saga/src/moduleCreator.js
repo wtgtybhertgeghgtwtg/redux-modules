@@ -6,17 +6,13 @@ import {
   type ExtractActionCreatorType,
   type ExtractTypeType,
   type NormalizedCreateModuleOptions,
-  type SuperTransformations,
+  type Transformations,
 } from '@wtg/redux-modules';
 import {forEach, mapValues} from 'lodash';
 
 import type {ReduxModule, Transformation} from './types';
 
-export default function moduleCreator<
-  S: Object,
-  T: Transformation<S, *, *, *, *>,
-  C: SuperTransformations<S, T>,
->(
+export default function moduleCreator<S: Object, C: Transformations<S>>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,
@@ -27,19 +23,24 @@ export default function moduleCreator<
   const types: $ObjMap<
     C,
     ExtractTypeType,
-  > = mapValues(transformations, (_: T, actionName: string) =>
-    formatType(name, actionName),
+  > = mapValues(
+    transformations,
+    (_: Transformation<S, *, *, *, *>, actionName: string) =>
+      formatType(name, actionName),
   );
   const actionCreators = mapValues(types, createActionCreator);
   const reducerMap = new Map();
   const sagas = Object.create(null);
-  forEach(transformations, (transformation: T, actionName: string) => {
-    const {reducer, sagaCreator} = transformation;
-    reducerMap.set(types[actionName], reducer);
-    if (sagaCreator) {
-      sagas[actionName] = sagaCreator({actionCreators, types});
-    }
-  });
+  forEach(
+    transformations,
+    (transformation: Transformation<S, *, *, *, *>, actionName: string) => {
+      const {reducer, sagaCreator} = transformation;
+      reducerMap.set(types[actionName], reducer);
+      if (sagaCreator) {
+        sagas[actionName] = sagaCreator({actionCreators, types});
+      }
+    },
+  );
   const reducer = createReducer(reducerMap, initialState);
   return {
     actionCreators,

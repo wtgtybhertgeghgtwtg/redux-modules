@@ -19,8 +19,7 @@ export type {
   NormalizedCreateModuleOptions,
   ReducerMap,
   ReduxModule,
-  SuperTransformation,
-  SuperTransformations,
   Transformation,
+  Transformations,
   Types,
 } from './types';

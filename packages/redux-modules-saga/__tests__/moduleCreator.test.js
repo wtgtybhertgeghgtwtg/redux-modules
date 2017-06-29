@@ -5,7 +5,7 @@ import type {
   ExtractActionCreatorType,
   ExtractTypeType,
   NormalizedCreateModuleOptions,
-  SuperTransformations,
+  Transformations,
 } from '@wtg/redux-modules';
 import {isFSA} from 'flux-standard-action';
 import {forEach} from 'lodash';
@@ -16,7 +16,7 @@ import type {ReduxModule, SagaCreatorProps} from '../src/types';
 
 jest.mock('@wtg/redux-modules');
 
-function harness<S: Object, C: SuperTransformations<S, *>>(
+function harness<S: Object, C: Transformations<S>>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<
   S,

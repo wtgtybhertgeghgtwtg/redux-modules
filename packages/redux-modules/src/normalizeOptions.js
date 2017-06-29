@@ -5,7 +5,7 @@ import {isObjectLike, mapValues} from 'lodash';
 import normalizeTransformation from './normalizeTransformation';
 import type {
   CreateModuleOptions,
-  ExtractSuperTransformation,
+  ExtractTransformationType,
   ImplicitTransformations,
   NormalizedCreateModuleOptions,
 } from './types';
@@ -15,7 +15,7 @@ export default function normalizeOptions<
   C: ImplicitTransformations<S>,
 >(
   options: CreateModuleOptions<S, C>,
-): NormalizedCreateModuleOptions<S, $ObjMap<C, ExtractSuperTransformation>> {
+): NormalizedCreateModuleOptions<S, $ObjMap<C, ExtractTransformationType>> {
   const {initialState, name, transformations = {}} = options;
   invariant(name, '`name` must be defined.');
   invariant(isObjectLike(initialState), '`initialState` must be an object.');

@@ -1,14 +1,18 @@
+// @flow
 import normalizeTransformation from '../src/normalizeTransformation';
-import type {Transformation} from '../src/types';
+import type {ImplicitTransformation} from '../src/types';
 
-function harness<S: Object, P, M>(transformation: Transformation<S, P, M>) {
+function harness<S: Object, P, M>(
+  transformation: ImplicitTransformation<S, P, M>,
+) {
   const canonicalTransformation = normalizeTransformation(
     transformation,
     'test',
   );
-  const reducer = typeof transformation === 'function'
-    ? transformation
-    : transformation.reducer;
+  const reducer =
+    typeof transformation === 'function'
+      ? transformation
+      : transformation.reducer;
 
   it('passes the reducer as `reducer`.', () => {
     expect(reducer).toBe(canonicalTransformation.reducer);
