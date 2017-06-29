@@ -1,6 +1,6 @@
 {
   "name": "@wtg/redux-modules",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "A simplistic alternate approach to https://github.com/procore/redux-modules.",
   "license": "MIT",
   "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/redux-modules",
