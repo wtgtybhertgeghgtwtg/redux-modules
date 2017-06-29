@@ -1,6 +1,6 @@
 {
   "name": "@wtg/react-redux-modules",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "`react-redux` for `@wtg/redux-modules`.",
   "license": "MIT",
   "author": "Matthew Fernando Garcia",
