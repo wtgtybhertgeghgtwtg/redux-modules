@@ -16,7 +16,7 @@
     "eslint-config-fb-strict": "^20.0.3",
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-flowtype": "^2.34.0",
-    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-jasmine": "^2.6.2",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^6.0.0",
