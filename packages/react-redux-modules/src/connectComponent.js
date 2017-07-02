@@ -27,7 +27,8 @@ export default function connectComponent<S: Object, OP: Object, SP: Object>(
   return <Def, St>(
     component: StatelessComponent<P> | Class<React$Component<Def, P, St>>,
   ) => {
-    class Connect extends Component {
+    const connectedComponent = reactReduxConnectComponent(component);
+    return class Connect extends Component {
       static contextTypes = {
         registerModules: PropTypes.func,
       };
@@ -40,10 +41,8 @@ export default function connectComponent<S: Object, OP: Object, SP: Object>(
       }
 
       render() {
-        return createElement(component, this.props);
+        return createElement(connectedComponent, this.props);
       }
-    }
-
-    return reactReduxConnectComponent(Connect);
+    };
   };
 }
