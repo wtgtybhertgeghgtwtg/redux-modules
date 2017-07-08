@@ -1,4 +1,5 @@
 // @flow
+import type {Action, ReduxModule} from '@wtg/redux-modules';
 import {map} from 'lodash';
 import PropTypes from 'prop-types';
 import {Component, createElement} from 'react';
@@ -9,7 +10,7 @@ import {
   type StatelessComponent,
 } from 'react-redux';
 
-import type {Action, ReduxModule} from '@wtg/redux-modules';
+import type {RegisterModules} from './types';
 
 export default function connectComponent<S: Object, OP: Object, SP: Object>(
   selector: MapStateToProps<S, OP, SP>,
@@ -33,7 +34,12 @@ export default function connectComponent<S: Object, OP: Object, SP: Object>(
         registerModules: PropTypes.func,
       };
 
-      constructor(props, context) {
+      constructor(
+        props: P,
+        context: {
+          registerModules?: RegisterModules,
+        },
+      ) {
         super(props, context);
         if (context.registerModules) {
           context.registerModules(modules);
