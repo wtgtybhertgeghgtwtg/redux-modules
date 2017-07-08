@@ -35,7 +35,7 @@ export default function connectComponent<S: Object, OP: Object, SP: Object>(
       };
 
       constructor(
-        props: P,
+        props: any,
         context: {
           registerModules?: RegisterModules,
         },
