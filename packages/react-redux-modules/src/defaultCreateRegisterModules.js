@@ -1,14 +1,15 @@
 // @flow
 import type {ReduxModule} from '@wtg/redux-modules';
 import {has, set} from 'lodash';
-import {combineReducers, type Reducer, type Store} from 'redux';
+import {combineReducers, type Store} from 'redux';
 
-import type {RegisterModules} from './types';
+import type {ReducerMap, RegisterModules} from './types';
 
 export default function defaultCreateRegisterModules<S: Object>(
   store: Store<$Shape<S>, *>,
+  reducers: ?ReducerMap,
 ): RegisterModules {
-  const registry: {[name: string]: Reducer<*, *>} = Object.create(null);
+  const registry: ReducerMap = {...reducers};
   return function registerModules(modules: Array<ReduxModule<*, *, *>>) {
     const unregisteredModules = modules.filter(
       ({name}) => !has(registry, name),

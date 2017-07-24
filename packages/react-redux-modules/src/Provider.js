@@ -6,14 +6,17 @@ import {Provider as ReactProvider} from 'react-redux';
 import {createStore, type Store} from 'redux';
 
 import defaultCreateRegisterModules from './defaultCreateRegisterModules';
+import type {ReducerMap} from './types';
 
 export type CreateRegisterModules<S, A> = (
   store: Store<S, A>,
+  reducers: ?ReducerMap,
 ) => (modules: Array<ReduxModule<*, *, *>>) => void;
 
 export type ProviderProps<S, A> = {
   children?: any,
   createRegisterModules?: CreateRegisterModules<S, A>,
+  reducers?: ReducerMap,
   store?: Store<S, A>,
 };
 
@@ -37,9 +40,12 @@ export default class Provider<S: Object, A> extends Component<
 
   constructor(props: ProviderProps<S, A>, context: ProviderContext<S, A>) {
     super(props, context);
-    const {createRegisterModules = defaultCreateRegisterModules} = props;
+    const {
+      createRegisterModules = defaultCreateRegisterModules,
+      reducers,
+    } = props;
     this.store = props.store || createStore((state: S) => state);
-    this.registerModules = createRegisterModules(this.store);
+    this.registerModules = createRegisterModules(this.store, reducers);
   }
 
   getChildContext() {
