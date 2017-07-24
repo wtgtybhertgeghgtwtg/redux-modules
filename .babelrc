@@ -1,3 +1,8 @@
 {
-  "presets": ["latest", "stage-0", "react"]
+  "presets": ["latest", "stage-0", "react"],
+  "env": {
+    "es": {
+      "plugins": ["use-lodash-es"]
+    }
+  }
 }

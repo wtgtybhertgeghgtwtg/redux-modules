@@ -4,4 +4,4 @@ import Provider from './Provider';
 
 export {connect, Provider};
 
-export type {RegisterModules} from './types';
+export type {ConnectOptions, RegisterModules} from './types';

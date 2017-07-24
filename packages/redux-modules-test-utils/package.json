@@ -7,14 +7,11 @@
   "author": "Matthew Fernando Garcia",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
-  "files": [
-    "lib",
-    "es",
-    "src"
-  ],
+  "files": ["lib", "es", "src"],
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.2.1"
+    "lodash": "^4.2.1",
+    "lodash-es": "^4.2.1"
   },
   "publishConfig": {
     "access": "public"
