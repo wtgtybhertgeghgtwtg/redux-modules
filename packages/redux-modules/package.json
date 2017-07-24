@@ -1,6 +1,6 @@
 {
   "name": "@wtg/redux-modules",
-  "version": "0.3.1",
+  "version": "0.3.8",
   "description": "A simplistic alternate approach to https://github.com/procore/redux-modules.",
   "license": "MIT",
   "repository": "https://github.com/wtgtybhertgeghgtwtg/redux-modules/tree/master/packages/redux-modules",
@@ -8,7 +8,11 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
-  "files": ["lib", "es", "src"],
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
   "dependencies": {
     "invariant": "^2.2.2",
     "lodash": "^4.2.1",

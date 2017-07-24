@@ -1,6 +1,6 @@
 {
   "name": "@wtg/react-redux-modules",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "`react-redux` for `@wtg/redux-modules`.",
   "license": "MIT",
   "author": "Matthew Fernando Garcia",
@@ -8,7 +8,11 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
-  "files": ["lib", "es", "src"],
+  "files": [
+    "lib",
+    "es",
+    "src"
+  ],
   "dependencies": {
     "invariant": "^2.2.2",
     "lodash": "^4.2.1",
