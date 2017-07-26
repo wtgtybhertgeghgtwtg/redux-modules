@@ -1,7 +1,7 @@
 // @flow
 import type {Reducer} from 'redux';
 
-export type Action<P, M> = {
+export type Action<P = void, M = void> = {
   type: string,
   payload: P,
   error: boolean,
