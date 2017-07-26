@@ -55,12 +55,12 @@ const initialState = {
 const otherProp = 'This should remain.';
 const transformations = {
   bumpPropOne: state => ({...state, propOne: state.propOne + 1}),
-  mergePropThree: (state, action: Action<Array<string>, void>) => ({
+  mergePropThree: (state, action: Action<Array<string>>) => ({
     ...state,
     propThree: [...state.propThree, action.payload],
   }),
   setPropTwo: {
-    reducer: (state, action: Action<string, void>) => ({
+    reducer: (state, action: Action<string>) => ({
       ...state,
       propTwo: action.payload,
     }),

@@ -14,12 +14,10 @@ describe('the reducer returned by `createReducer`', () => {
     ...state,
     propOne: state.propOne + 1,
   }));
-  const setPropTwo = jest.fn(
-    (state: State, {payload}: Action<string, void>) => ({
-      ...state,
-      propTwo: payload,
-    }),
-  );
+  const setPropTwo = jest.fn((state: State, {payload}: Action<string>) => ({
+    ...state,
+    propTwo: payload,
+  }));
   const reducerMap = new Map([
     ['TEST/BUMP_PROP_ONE', bumpPropOne],
     ['TEST/SET_PROP_TWO', setPropTwo],

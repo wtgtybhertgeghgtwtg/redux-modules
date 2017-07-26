@@ -94,12 +94,10 @@ describe('defaultModuleCreator({initialState, name, transformations})', () => {
       propThree: action.meta,
     }),
   );
-  const setPropTwoReducer = jest.fn(
-    (state: State, action: Action<string, void>) => ({
-      ...state,
-      propTwo: action.payload,
-    }),
-  );
+  const setPropTwoReducer = jest.fn((state: State, action: Action<string>) => ({
+    ...state,
+    propTwo: action.payload,
+  }));
   const transformations = {
     bumpPropOne: {
       reducer: bumpPropOneReducer,
