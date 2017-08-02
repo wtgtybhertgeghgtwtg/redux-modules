@@ -5,6 +5,13 @@ import {combineReducers, type Store} from 'redux';
 
 import type {ReducerMap, RegisterModules} from './types';
 
+/**
+ * @private
+ * Creates the default module registration function.
+ * @param {Store} store The Redux store.
+ * @param {ReducerMap} reducers A collection of reducers to preload into the registry.
+ * @return {RegisterModules} The module registration function.
+ */
 export default function defaultCreateRegisterModules<S: Object>(
   store: Store<$Shape<S>, *>,
   reducers: ?ReducerMap,

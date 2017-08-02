@@ -1,7 +1,12 @@
 // @flow
 import type {ActionCreator} from './types';
 
-// Really rolls off the tongue, huh?
+/**
+ * @private
+ * Create an ActionCreator for the given type.
+ * @param {string} type The `type` the Action created by the ActionCreator will have.
+ * @return {ActionCreator} The created ActionCreator.
+ */
 export default function createActionCreator<P, M>(
   type: string,
 ): ActionCreator<P, M> {

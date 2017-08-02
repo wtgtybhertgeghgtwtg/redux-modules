@@ -13,6 +13,7 @@ import type {
   Transformations,
 } from '../src/types';
 
+// eslint-disable-next-line require-jsdoc
 function harness<S: Object, C: Transformations<S>>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<

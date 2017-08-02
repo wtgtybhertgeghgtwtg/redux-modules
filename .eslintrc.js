@@ -14,6 +14,18 @@ module.exports = {
     'import/no-duplicates': 2,
     'import/no-unresolved': [2, {ignore: ['^@wtg/']}],
     'import/named': 0,
+    'require-jsdoc': [
+      2,
+      {
+        require: {
+          ArrowFunctionExpression: false,
+          ClassDeclaration: true,
+          FunctionDeclaration: true,
+          MethodDefinition: false,
+        },
+      },
+    ],
+    'valid-jsdoc': 2,
   },
   plugins: ['import'],
 };
