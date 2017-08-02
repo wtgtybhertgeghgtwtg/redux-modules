@@ -13,6 +13,12 @@ import type {
   Transformations,
 } from './types';
 
+/**
+ * @private
+ * The default ModuleCreator.  Creates a ReduxModule for the given options.
+ * @param {NormalizedCreateModuleOptions} options The options used to create the ReduxModule.  Shorthand has been normalized away.
+ * @return {ReduxModule} The created ReduxModule.
+ */
 export default function defaultModuleCreator<S: Object, C: Transformations<S>>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<

@@ -4,6 +4,13 @@ import {isObjectLike} from 'lodash';
 
 import type {ImplicitTransformation, Transformation} from './types';
 
+/**
+ * @private
+ * Normalize a Transformation to remove shorthand.
+ * @param {ImplicitTransformation} transformation A Reducer or Transformation object to be normalized.
+ * @param {string} name The name of the transformation.
+ * @return {Transformation} The normalized transformation.
+ */
 export default function normalizeTransformation<S: Object, P, M>(
   transformation: ImplicitTransformation<S, P, M>,
   name: string,
