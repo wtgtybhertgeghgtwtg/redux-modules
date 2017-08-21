@@ -41,7 +41,7 @@ type ExtractBoundModuleWithState<S> = <P, M>(
  * @return {BoundModule} The bound module.
  */
 export default function bindModuleWithState<S: Object, A: ActionCreators>(
-  reduxModule: ReduxModule<S, A, *>,
+  reduxModule: ReduxModule<S, A>,
   state: S,
 ): BoundModuleWithState<S, A> {
   const {actionCreators, reducer} = reduxModule;

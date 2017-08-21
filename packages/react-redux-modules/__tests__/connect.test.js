@@ -10,7 +10,7 @@ jest.mock('../src/connectComponent', () => {
   return jest.fn(
     <S, OP, SP>(
       selector: MapStateToProps<S, OP, SP>,
-      modules: Array<ReduxModule<Object, any, any>>,
+      modules: Array<ReduxModule<Object, any>>,
       options: ConnectOptions,
     ) => {
       expect(typeof selector).toEqual('function');

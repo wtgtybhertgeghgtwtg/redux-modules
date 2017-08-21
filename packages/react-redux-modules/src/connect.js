@@ -8,9 +8,7 @@ import connectComponent from './connectComponent';
 import createImplicitSelector from './createImplicitSelector';
 import type {ConnectOptions} from './types';
 
-type Modules =
-  | Array<ReduxModule<Object, Object, Object>>
-  | ReduxModule<Object, Object, Object>;
+type Modules = ReduxModule<Object, {}> | Array<ReduxModule<Object, {}>>;
 
 /**
  * Creates a higher-order component that connects a React component to one or more ReduxModules.  The actionCreators and assosciated state of the modules will be passed as props to the component.
@@ -40,7 +38,8 @@ export default function connect(
   } else {
     invariant(!Array.isArray(modules), '`options` must be a plain object.');
     options = {connectWrapper: identity, ...modules};
-    modules = (castArray(selector): Array<ReduxModule<Object, Object, Object>>);
+    modules = castArray(selector);
+    // modules = (castArray(selector): Array<ReduxModule<Object, Object>>);
     selector = createImplicitSelector(modules);
   }
   return connectComponent(selector, modules, options);

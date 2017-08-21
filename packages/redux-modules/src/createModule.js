@@ -5,7 +5,6 @@ import type {
   CreateModuleOptions,
   ExtractActionCreatorType,
   ExtractTransformationType,
-  ExtractTypeType,
   ImplicitTransformations,
   ModuleCreator,
   ReduxModule,
@@ -37,11 +36,7 @@ export default function createModule<S: Object, C: ImplicitTransformations<S>>(
     S,
     $ObjMap<C, ExtractTransformationType>,
   > = defaultModuleCreator,
-): ReduxModule<
-  S,
-  $ObjMap<C, ExtractActionCreatorType>,
-  $ObjMap<C, ExtractTypeType>,
-> {
+): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
   const normalOptions = normalizeOptions(options);
   return moduleCreator(normalOptions);
 }

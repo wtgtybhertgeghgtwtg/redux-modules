@@ -17,7 +17,7 @@ export default function defaultCreateRegisterModules<S: Object>(
   reducers: ?ReducerMap,
 ): RegisterModules {
   const registry: ReducerMap = {...reducers};
-  return function registerModules(modules: Array<ReduxModule<*, *, *>>) {
+  return function registerModules(modules: Array<ReduxModule<*, *>>) {
     const unregisteredModules = modules.filter(
       ({name}) => !has(registry, name),
     );

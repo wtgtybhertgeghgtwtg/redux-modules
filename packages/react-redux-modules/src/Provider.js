@@ -11,7 +11,7 @@ import type {ReducerMap} from './types';
 export type CreateRegisterModules<S, A> = (
   store: Store<S, A>,
   reducers: ?ReducerMap,
-) => (modules: Array<ReduxModule<*, *, *>>) => void;
+) => (modules: Array<ReduxModule<*, *>>) => void;
 
 export type ProviderProps<S, A> = {
   children?: any,
@@ -32,7 +32,7 @@ export default class Provider<S: Object, A> extends Component<
   ProviderProps<S, A>,
 > {
   props: ProviderProps<S, A>;
-  registerModules: (modules: Array<ReduxModule<*, *, *>>) => void;
+  registerModules: (modules: Array<ReduxModule<*, *>>) => void;
   store: Store<S, *>;
 
   static childContextTypes = {

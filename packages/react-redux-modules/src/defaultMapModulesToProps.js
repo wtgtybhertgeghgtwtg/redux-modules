@@ -9,11 +9,11 @@ import type {MapDispatchToProps} from 'react-redux';
  * @param {Array<ReduxModule>} modules Modules whose actionCreators will be passed as props to the component.
  * @return {Object} The combined actionCreators from `modules`.
  */
-export default function defaultMapModulesToProps<DP: Object>(
-  modules: Array<ReduxModule<Object, $Shape<DP>, Object>>,
+export default function defaultMapModulesToProps<DP: {}>(
+  modules: Array<ReduxModule<Object, $Shape<DP>>>,
 ): MapDispatchToProps<*, *, DP> {
   const actionCreators = modules.map(
-    <A: $Shape<DP>>(reduxModule: ReduxModule<*, A, *>) =>
+    <A: $Shape<DP>>(reduxModule: ReduxModule<*, A>) =>
       reduxModule.actionCreators,
   );
   return Object.assign({}, ...actionCreators);
