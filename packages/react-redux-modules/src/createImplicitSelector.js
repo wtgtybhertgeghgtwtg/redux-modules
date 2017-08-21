@@ -1,7 +1,8 @@
 // @flow
-import {at, map} from 'lodash';
+import {at} from 'lodash';
 
 import type {ReduxModule} from '@wtg/redux-modules';
+import type {MapStateToProps} from 'react-redux';
 
 /**
  * @private
@@ -15,11 +16,12 @@ import type {ReduxModule} from '@wtg/redux-modules';
  * @param {Array<ReduxModule>} modules Modules whose names will be used to determine which parts of the state to be selected.
  * @return {Selector} The created selector function.
  */
-export default function createImplicitSelector(
-  modules: Array<ReduxModule<*, *, *>>,
-) {
-  const names = map(modules, 'name');
-  // This is difficult to express in Flow.
-  // `state` should be an unsealed object with properties of the `S` type of each module, keyed by the `name` of that module.
-  return (state: Object) => Object.assign({}, ...at(state, names));
+export default function createImplicitSelector<S: Object>(
+  modules: Array<ReduxModule<$Shape<S>, Object, Object>>,
+): MapStateToProps<{[name: string]: $Shape<S>}, Object, S> {
+  const names = modules.map(reduxModule => reduxModule.name);
+  return state => {
+    const moduleStates: Array<$Shape<S>> = at(state, names);
+    return Object.assign({}, ...moduleStates);
+  };
 }

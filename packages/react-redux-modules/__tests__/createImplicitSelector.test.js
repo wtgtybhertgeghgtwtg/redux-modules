@@ -27,7 +27,7 @@ describe('createImplicitSelector', () => {
   describe('with one module', () => {
     const selector = createImplicitSelector([moduleOne]);
     it('returns the state for that module.', () => {
-      const result = selector(state);
+      const result = selector(state, {});
       expect(result).toEqual(moduleOneState);
     });
   });
@@ -35,7 +35,7 @@ describe('createImplicitSelector', () => {
   describe('with two modules', () => {
     const selector = createImplicitSelector([moduleOne, moduleTwo]);
     it('returns the spread of properties from both states.', () => {
-      const result = selector(state);
+      const result = selector(state, {});
       const expected = Object.assign({}, moduleOneState, moduleTwoState);
       expect(result).toEqual(expected);
     });
