@@ -29,9 +29,7 @@ export type ProviderContext<S, A> = {
  * The Provider component.  Allows `connect` descendant calls to access the store.
  */
 export default class Provider<S: Object, A> extends Component<
-  void,
   ProviderProps<S, A>,
-  void,
 > {
   props: ProviderProps<S, A>;
   registerModules: (modules: Array<ReduxModule<*, *, *>>) => void;

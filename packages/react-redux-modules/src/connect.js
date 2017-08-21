@@ -2,15 +2,15 @@
 import type {ReduxModule} from '@wtg/redux-modules';
 import invariant from 'invariant';
 import {castArray, identity} from 'lodash';
+import type {MapStateToProps} from 'react-redux';
 
 import connectComponent from './connectComponent';
 import createImplicitSelector from './createImplicitSelector';
 import type {ConnectOptions} from './types';
 
-type Modules = Array<ReduxModule<*, *, *>> | ReduxModule<*, *, *>;
-type Selector =
-  | ((state: Object) => Object)
-  | ((state: Object, props: Object) => Object);
+type Modules =
+  | Array<ReduxModule<Object, Object, Object>>
+  | ReduxModule<Object, Object, Object>;
 
 /**
  * Creates a higher-order component that connects a React component to one or more ReduxModules.  The actionCreators and assosciated state of the modules will be passed as props to the component.
@@ -28,7 +28,7 @@ type Selector =
  * @return {Connector} A connector higher-order component.
  */
 export default function connect(
-  selector: Selector | Modules,
+  selector: MapStateToProps<*, *, *> | Modules,
   modules?: Modules | ConnectOptions,
   options?: ConnectOptions,
 ) {
@@ -40,7 +40,7 @@ export default function connect(
   } else {
     invariant(!Array.isArray(modules), '`options` must be a plain object.');
     options = {connectWrapper: identity, ...modules};
-    modules = castArray(selector);
+    modules = (castArray(selector): Array<ReduxModule<Object, Object, Object>>);
     selector = createImplicitSelector(modules);
   }
   return connectComponent(selector, modules, options);
