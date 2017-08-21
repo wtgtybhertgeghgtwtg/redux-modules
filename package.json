@@ -3,6 +3,7 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^20.0.3",
+    "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-use-lodash-es": "^0.1.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.23.0",
