@@ -22,7 +22,7 @@ export default function connectComponent<
   DP: Object,
 >(
   selector: MapStateToProps<S, OP, SP>,
-  modules: Array<ReduxModule<Object, Object, Object>>,
+  modules: Array<ReduxModule<Object, {}>>,
   options: ConnectOptions,
 ) {
   const {connectWrapper, ...reactReduxOptions} = options;

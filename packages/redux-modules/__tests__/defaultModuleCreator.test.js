@@ -7,7 +7,6 @@ import type {
   Action,
   ActionCreator,
   ExtractActionCreatorType,
-  ExtractTypeType,
   NormalizedCreateModuleOptions,
   ReduxModule,
   Transformations,
@@ -16,11 +15,7 @@ import type {
 // eslint-disable-next-line require-jsdoc
 function harness<S: Object, C: Transformations<S>>(
   options: NormalizedCreateModuleOptions<S, C>,
-): ReduxModule<
-  S,
-  $ObjMap<C, ExtractActionCreatorType>,
-  $ObjMap<C, ExtractTypeType>,
-> {
+): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
   const {initialState, name, transformations} = options;
   const transformationKeys = Object.keys(transformations);
   const testModule = defaultModuleCreator(options);

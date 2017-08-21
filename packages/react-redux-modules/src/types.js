@@ -21,4 +21,4 @@ export type ReducerMap = {
   [name: string]: Reducer<*, *>,
 };
 
-export type RegisterModules = (modules: Array<ReduxModule<*, *, *>>) => void;
+export type RegisterModules = (modules: Array<ReduxModule<*, *>>) => void;
