@@ -12,7 +12,7 @@ export type ConnectOptions = {
 };
 
 export type MapModulesToProps<A, OP: Object, DP: Object> = (
-  modules: Array<ReduxModule<Object, Object, Object>>,
+  modules: Array<ReduxModule<Object, *>>,
 ) => MapDispatchToProps<A, OP, DP>;
 
 // This is the same name as something from `@wtg/redux-modules` but something different.
