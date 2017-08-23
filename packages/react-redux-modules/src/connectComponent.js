@@ -1,17 +1,17 @@
 // @flow
 import type {ReduxModule} from '@wtg/redux-modules';
 import PropTypes from 'prop-types';
-import {Component, createElement} from 'react';
+import {Component, type ComponentType, createElement} from 'react';
 import {connect as reactReduxConnect, type MapStateToProps} from 'react-redux';
 
-import defaultMapModulesToProps from './defaultMapModulesToProps';
-import type {ConnectOptions, RegisterModules} from './types';
+import type {ConnectOptions, MapModulesToProps, RegisterModules} from './types';
 
 /**
  * @private
  * Creates a higher-order component that connects a React component to an array of modules.
  * @param {Selector} selector A selector function that will determine which part of the state will be passed to the component.
  * @param {Array<ReduxModule>} modules Modules whose actionCreators will be passed as props to the component.  If there are no associated reducers in the Redux store, they will be automatically registered.
+ * @param {MapModulesToProps} mapModulesToProps A function that will determine how modules are mapped to props.
  * @param {ConnectOptions} options The options object from `react-redux`.
  * @return {Connector} A connector higher-order component.
  */
@@ -22,18 +22,19 @@ export default function connectComponent<
   DP: Object,
 >(
   selector: MapStateToProps<S, OP, SP>,
-  modules: Array<ReduxModule<Object, {}>>,
+  modules: Array<ReduxModule<Object, *>>,
+  mapModulesToProps: MapModulesToProps<*, OP, DP>,
   options: ConnectOptions,
 ) {
   const {connectWrapper, ...reactReduxOptions} = options;
-  const mapDispatchToProps = defaultMapModulesToProps(modules);
+  const mapDispatchToProps = mapModulesToProps(modules);
   const reactReduxConnectComponent = reactReduxConnect(
     selector,
     mapDispatchToProps,
     null,
     reactReduxOptions,
   );
-  return (component: React$ComponentType<$Supertype<OP & SP & DP>>) => {
+  return (component: ComponentType<$Supertype<OP & SP & DP>>) => {
     const connectedComponent = connectWrapper(
       reactReduxConnectComponent(component),
     );
