@@ -23,7 +23,7 @@
     "flow-copy-source": "^1.2.0",
     "flux-standard-action": "^1.1.0",
     "jest": "^20.0.4",
-    "lerna": "^2.0.0",
+    "lerna": "^2.1.2",
     "lodash": "^4.2.1",
     "prettier": "^1.5.3",
     "prop-types": "^15.5.10",

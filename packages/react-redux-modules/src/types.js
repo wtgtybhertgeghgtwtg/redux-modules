@@ -1,4 +1,5 @@
 // @flow
+import type {ComponentType} from 'react';
 import type {ReduxModule} from '@wtg/redux-modules';
 import type {
   ConnectOptions as ReactReduxConnectOptions,
@@ -8,7 +9,7 @@ import type {Reducer} from 'redux';
 
 export type ConnectOptions = {
   ...ReactReduxConnectOptions,
-  connectWrapper: any => Class<React$Component<*>>,
+  connectWrapper: (ComponentType<*>) => ComponentType<*>,
 };
 
 export type MapModulesToProps<A, OP: Object, DP: Object> = (
