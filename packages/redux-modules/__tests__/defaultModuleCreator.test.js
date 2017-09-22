@@ -9,11 +9,11 @@ import type {
   ExtractActionCreatorType,
   NormalizedCreateModuleOptions,
   ReduxModule,
-  Transformations,
+  // Transformations,
 } from '../src/types';
 
 // eslint-disable-next-line require-jsdoc
-function harness<S: Object, C: Transformations<S>>(
+function harness<S: Object, C: {}>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
   const {initialState, name, transformations} = options;
@@ -66,7 +66,9 @@ function harness<S: Object, C: Transformations<S>>(
 }
 
 describe('defaultModuleCreator({initialState, name, transformations})', () => {
-  afterEach(() => jest.clearAllMocks());
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   type State = {
     propOne: number,

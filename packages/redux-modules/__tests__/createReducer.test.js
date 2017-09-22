@@ -37,7 +37,9 @@ describe('the reducer returned by `createReducer`', () => {
   };
 
   // Reset all mock functions.
-  afterEach(() => invokeMap(reducerMap, 'mockReset'));
+  afterEach(() => {
+    invokeMap(reducerMap, 'mockReset');
+  });
 
   it('returns `state` if the `type` of `action` does not match a key of `reducerMap`.', () => {
     const outState = reducer(inState, fakeAction);

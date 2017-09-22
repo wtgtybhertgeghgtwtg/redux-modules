@@ -1,5 +1,6 @@
 [ignore]
 .*/node_modules/conventional-changelog-core/*
+.*/node_modules/graphql/*
 
 [options]
 module.name_mapper='^@wtg/\(.*\)$' -> '<PROJECT_ROOT>/packages/\1/src/index.js'
