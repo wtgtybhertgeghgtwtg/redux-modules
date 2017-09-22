@@ -6,10 +6,10 @@ import createReducer from './createReducer';
 import formatType from './formatType';
 import type {
   ExtractActionCreatorType,
+  ExtractTypeType,
   NormalizedCreateModuleOptions,
   ReduxModule,
   Transformation,
-  Transformations,
 } from './types';
 
 /**
@@ -18,12 +18,12 @@ import type {
  * @param {NormalizedCreateModuleOptions} options The options used to create the ReduxModule.  Shorthand has been normalized away.
  * @return {ReduxModule} The created ReduxModule.
  */
-export default function defaultModuleCreator<S: Object, C: Transformations<S>>(
+export default function defaultModuleCreator<S: Object, C: {}>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
   const {initialState, name, transformations} = options;
-  const actionCreators = Object.create(null);
-  const types = Object.create(null);
+  const actionCreators: $ObjMap<C, ExtractActionCreatorType> = {};
+  const types: $ObjMap<C, ExtractTypeType> = {};
   const reducerMap = new Map();
   forEach(
     transformations,

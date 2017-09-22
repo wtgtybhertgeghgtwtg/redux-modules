@@ -6,7 +6,6 @@ import normalizeTransformation from './normalizeTransformation';
 import type {
   CreateModuleOptions,
   ExtractTransformationType,
-  ImplicitTransformations,
   NormalizedCreateModuleOptions,
 } from './types';
 
@@ -28,10 +27,7 @@ import type {
  * @param {CreateModuleOptions} options The raw options passed to `createModule`.
  * @return {NormalizedCreateModuleOptions} A normalized version of the given options.
  */
-export default function normalizeOptions<
-  S: Object,
-  C: ImplicitTransformations<S>,
->(
+export default function normalizeOptions<S: Object, C: {}>(
   options: CreateModuleOptions<S, C>,
 ): NormalizedCreateModuleOptions<S, $ObjMap<C, ExtractTransformationType>> {
   const {initialState, name, transformations = {}} = options;

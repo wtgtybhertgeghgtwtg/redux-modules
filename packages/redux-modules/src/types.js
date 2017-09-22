@@ -37,11 +37,11 @@ export type ImplicitTransformations<S: Object> = StringMap<
   ImplicitTransformation<S, any, any>,
 >;
 
-export type ModuleCreator<S: Object, C: Transformations<S>> = (
+export type ModuleCreator<S: Object, C: {}> = (
   options: NormalizedCreateModuleOptions<S, C>,
 ) => ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>>;
 
-export type NormalizedCreateModuleOptions<S: Object, C: Transformations<S>> = {
+export type NormalizedCreateModuleOptions<S: Object, C: {}> = {
   initialState: S,
   name: string,
   transformations: C,
@@ -63,8 +63,6 @@ export type StringMap<T> = {
 export type Transformation<S: Object, P, M> = {
   reducer: Reducer<S, Action<P, M>>,
 };
-
-export type Transformations<S: Object> = StringMap<Transformation<S, *, *>>;
 
 // This is also dumb.
 export type Types = StringMap<string>;

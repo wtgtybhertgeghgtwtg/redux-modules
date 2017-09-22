@@ -20,6 +20,6 @@ export type {
   ReducerMap,
   ReduxModule,
   Transformation,
-  Transformations,
+  // Transformations,
   Types,
 } from './types';

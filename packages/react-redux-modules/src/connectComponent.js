@@ -34,10 +34,12 @@ export default function connectComponent<
     null,
     reactReduxOptions,
   );
-  return (component: ComponentType<$Supertype<OP & SP & DP>>) => {
-    const connectedComponent = connectWrapper(
-      reactReduxConnectComponent(component),
-    );
+  type Props = $Supertype<OP & SP & DP>;
+  return (component: ComponentType<Props>) => {
+    const baseConnectedComponent: ComponentType<
+      Props,
+    > = reactReduxConnectComponent(component);
+    const connectedComponent = connectWrapper(baseConnectedComponent);
     return class Connect extends Component<OP> {
       static contextTypes = {
         registerModules: PropTypes.func,
