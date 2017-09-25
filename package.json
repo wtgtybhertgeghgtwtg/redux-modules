@@ -13,13 +13,13 @@
     "eslint": "^4.7.2",
     "eslint-config-fb-strict": "^21.0.2",
     "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-flowtype": "^2.35.1",
+    "eslint-plugin-flowtype": "^2.36.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jasmine": "^2.8.4",
     "eslint-plugin-jest": "^21.1.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
-    "eslint-plugin-react": "^7.3.0",
+    "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-relay": "^0.0.8",
     "flow-bin": "^0.55.0",
     "flow-copy-source": "^1.2.1",
@@ -30,47 +30,37 @@
     "prettier": "^1.7.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
+    "react-test-renderer": "^15.6.1",
     "redux": "^3.7.2",
     "rimraf": "^2.6.2"
   },
   "engines": {
     "node": ">=4",
-    "yarn": ">=0.20.0"
+    "yarn": ">=1"
   },
   "private": "true",
   "scripts": {
-    "build":
-      "yarn run build:redux-modules && yarn run build:react-redux-modules && yarn run build:redux-modules-test-utils",
-    "build:react-redux-modules":
-      "yarn run build:react-redux-modules:commonjs && yarn run build:react-redux-modules:es",
-    "build:react-redux-modules:commonjs":
-      "cross-env BABEL_ENV=commonjs babel packages/react-redux-modules/src --out-dir packages/react-redux-modules/lib -i \"/node_modules|__tests__/\" && flow-copy-source packages/react-redux-modules/src packages/react-redux-modules/lib",
-    "build:react-redux-modules:es":
-      "cross-env BABEL_ENV=es babel packages/react-redux-modules/src --out-dir packages/react-redux-modules/es -i \"/node_modules|__tests__/\" && flow-copy-source packages/react-redux-modules/src packages/react-redux-modules/es",
-    "build:redux-modules":
-      "yarn run build:redux-modules:commonjs && yarn run build:redux-modules:es",
-    "build:redux-modules-test-utils":
-      "yarn run build:redux-modules-test-utils:commonjs && yarn run build:redux-modules-test-utils:es",
-    "build:redux-modules-test-utils:commonjs":
-      "cross-env BABEL_ENV=commonjs babel packages/redux-modules-test-utils/src --out-dir packages/redux-modules-test-utils/lib -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules-test-utils/src packages/redux-modules-test-utils/lib",
-    "build:redux-modules-test-utils:es":
-      "cross-env BABEL_ENV=es babel packages/redux-modules-test-utils/src --out-dir packages/redux-modules-test-utils/es -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules-test-utils/src packages/redux-modules-test-utils/es",
-    "build:redux-modules:commonjs":
-      "cross-env BABEL_ENV=commonjs babel packages/redux-modules/src --out-dir packages/redux-modules/lib -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules/src packages/redux-modules/lib",
-    "build:redux-modules:es":
-      "cross-env BABEL_ENV=es babel packages/redux-modules/src --out-dir packages/redux-modules/es -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules/src packages/redux-modules/es",
+    "build": "yarn run build:redux-modules && yarn run build:react-redux-modules && yarn run build:redux-modules-test-utils",
+    "build:react-redux-modules": "yarn run build:react-redux-modules:commonjs && yarn run build:react-redux-modules:es",
+    "build:react-redux-modules:commonjs": "cross-env BABEL_ENV=commonjs babel packages/react-redux-modules/src --out-dir packages/react-redux-modules/lib -i \"/node_modules|__tests__/\" && flow-copy-source packages/react-redux-modules/src packages/react-redux-modules/lib",
+    "build:react-redux-modules:es": "cross-env BABEL_ENV=es babel packages/react-redux-modules/src --out-dir packages/react-redux-modules/es -i \"/node_modules|__tests__/\" && flow-copy-source packages/react-redux-modules/src packages/react-redux-modules/es",
+    "build:redux-modules": "yarn run build:redux-modules:commonjs && yarn run build:redux-modules:es",
+    "build:redux-modules-test-utils": "yarn run build:redux-modules-test-utils:commonjs && yarn run build:redux-modules-test-utils:es",
+    "build:redux-modules-test-utils:commonjs": "cross-env BABEL_ENV=commonjs babel packages/redux-modules-test-utils/src --out-dir packages/redux-modules-test-utils/lib -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules-test-utils/src packages/redux-modules-test-utils/lib",
+    "build:redux-modules-test-utils:es": "cross-env BABEL_ENV=es babel packages/redux-modules-test-utils/src --out-dir packages/redux-modules-test-utils/es -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules-test-utils/src packages/redux-modules-test-utils/es",
+    "build:redux-modules:commonjs": "cross-env BABEL_ENV=commonjs babel packages/redux-modules/src --out-dir packages/redux-modules/lib -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules/src packages/redux-modules/lib",
+    "build:redux-modules:es": "cross-env BABEL_ENV=es babel packages/redux-modules/src --out-dir packages/redux-modules/es -i \"/node_modules|__tests__/\" && flow-copy-source packages/redux-modules/src packages/redux-modules/es",
     "clean": "rimraf packages/**/es packages/**/lib",
     "flow": "flow",
     "jest": "jest --coverage",
     "lint": "eslint packages/**/src/*.js packages/**/__tests__/*.js",
     "lint:fix": "eslint packages/**/*.js --fix",
     "postinstall": "lerna bootstrap",
-    "prettier:lint":
-      "prettier --l --no-bracket-spacing --single-quote --trailing-comma all \"packages/**/*.js\"",
-    "prettier:write":
-      "prettier --no-bracket-spacing --single-quote --trailing-comma all --write \"packages/**/*.js\"",
+    "prettier:lint": "prettier --l --no-bracket-spacing --single-quote --trailing-comma all \"packages/**/*.js\"",
+    "prettier:write": "prettier --no-bracket-spacing --single-quote --trailing-comma all --write \"packages/**/*.js\"",
     "publish": "yarn run clean && yarn run build && lerna publish",
     "test": "yarn run lint && yarn run flow && yarn run jest"
   }

@@ -1,7 +1,7 @@
 // @flow
 import type {ReduxModule} from '@wtg/redux-modules';
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
+import React, {Component, type Node} from 'react';
 import {Provider as ReactProvider} from 'react-redux';
 import {createStore, type Store} from 'redux';
 
@@ -14,7 +14,7 @@ export type CreateRegisterModules<S, A> = (
 ) => (modules: Array<ReduxModule<*, *>>) => void;
 
 export type ProviderProps<S, A> = {
-  children?: any,
+  children: Node,
   createRegisterModules?: CreateRegisterModules<S, A>,
   reducers?: ReducerMap,
   store?: Store<S, A>,
@@ -44,9 +44,10 @@ export default class Provider<S: Object, A> extends Component<
     const {
       createRegisterModules = defaultCreateRegisterModules,
       reducers,
+      store = createStore((state: S) => state),
     } = props;
-    this.store = props.store || createStore((state: S) => state);
-    this.registerModules = createRegisterModules(this.store, reducers);
+    this.store = store;
+    this.registerModules = createRegisterModules(store, reducers);
   }
 
   getChildContext() {
@@ -58,10 +59,6 @@ export default class Provider<S: Object, A> extends Component<
   render() {
     const {children} = this.props;
     const store = this.store;
-    return (
-      <ReactProvider store={store}>
-        {children}
-      </ReactProvider>
-    );
+    return <ReactProvider store={store}>{children}</ReactProvider>;
   }
 }
