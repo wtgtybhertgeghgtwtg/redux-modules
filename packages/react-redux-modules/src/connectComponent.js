@@ -1,8 +1,13 @@
 // @flow
 import type {ReduxModule} from '@wtg/redux-modules';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import PropTypes from 'prop-types';
 import {Component, type ComponentType, createElement} from 'react';
-import {connect as reactReduxConnect, type MapStateToProps} from 'react-redux';
+import {
+  connect as reactReduxConnect,
+  type Connector,
+  type MapStateToProps,
+} from 'react-redux';
 
 import type {ConnectOptions, MapModulesToProps, RegisterModules} from './types';
 
@@ -17,7 +22,7 @@ import type {ConnectOptions, MapModulesToProps, RegisterModules} from './types';
  */
 export default function connectComponent<
   S: Object,
-  OP: Object,
+  OP: {},
   SP: Object,
   DP: Object,
 >(
@@ -25,7 +30,7 @@ export default function connectComponent<
   modules: Array<ReduxModule<Object, *>>,
   mapModulesToProps: MapModulesToProps<*, OP, DP>,
   options: ConnectOptions,
-) {
+): Connector<OP, $Supertype<OP & SP & DP>> {
   const {connectWrapper, ...reactReduxOptions} = options;
   const mapDispatchToProps = mapModulesToProps(modules);
   const reactReduxConnectComponent = reactReduxConnect(
@@ -40,9 +45,14 @@ export default function connectComponent<
       Props,
     > = reactReduxConnectComponent(component);
     const connectedComponent = connectWrapper(baseConnectedComponent);
-    return class Connect extends Component<OP> {
+    /**
+     * @private
+     * The connected component.  Accesses the store from a parent `Provider` component.
+     */
+    class Connect extends Component<OP> {
       static contextTypes = {
         registerModules: PropTypes.func,
+        store: PropTypes.object,
       };
 
       constructor(
@@ -58,8 +68,9 @@ export default function connectComponent<
       }
 
       render() {
-        return createElement(connectedComponent, this.props || {});
+        return createElement(connectedComponent, {...this.props});
       }
-    };
+    }
+    return hoistNonReactStatics(Connect, connectedComponent);
   };
 }

@@ -17,8 +17,8 @@ import type {MapStateToProps} from 'react-redux';
  * @return {Selector} The created selector function.
  */
 export default function createImplicitSelector<S: Object>(
-  modules: Array<ReduxModule<$Shape<S>, {}>>,
-): MapStateToProps<{[name: string]: $Shape<S>}, Object, S> {
+  modules: Array<ReduxModule<Object, {}>>,
+): MapStateToProps<S, Object, S> {
   const names = modules.map(reduxModule => reduxModule.name);
   return state => {
     const moduleStates: Array<$Shape<S>> = at(state, names);
