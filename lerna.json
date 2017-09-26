@@ -1,9 +1,6 @@
 {
-  "lerna": "2.0.0-rc.5",
-  "packages": [
-    "packages/*"
-  ],
-  "hoist": true,
+  "lerna": "2.2.0",
   "npmClient": "yarn",
+  "useWorkspaces": true,
   "version": "0.5.1"
 }

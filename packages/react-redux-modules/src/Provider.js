@@ -15,8 +15,8 @@ export type CreateRegisterModules<S, A> = (
 
 export type ProviderProps<S, A> = {
   children: Node,
-  createRegisterModules?: CreateRegisterModules<S, A>,
-  reducers?: ReducerMap,
+  createRegisterModules: CreateRegisterModules<S, A>,
+  reducers: ReducerMap,
   store?: Store<S, A>,
 };
 
@@ -31,7 +31,6 @@ export type ProviderContext<S, A> = {
 export default class Provider<S: Object, A> extends Component<
   ProviderProps<S, A>,
 > {
-  props: ProviderProps<S, A>;
   registerModules: (modules: Array<ReduxModule<*, *>>) => void;
   store: Store<S, *>;
 
@@ -39,12 +38,18 @@ export default class Provider<S: Object, A> extends Component<
     registerModules: PropTypes.func.isRequired,
   };
 
+  static defaultProps = {
+    createRegisterModules: defaultCreateRegisterModules,
+    reducers: {},
+  };
+
   constructor(props: ProviderProps<S, A>, context: ProviderContext<S, A>) {
     super(props, context);
     const {
-      createRegisterModules = defaultCreateRegisterModules,
+      createRegisterModules,
       reducers,
-      store = createStore((state: S) => state),
+      // Not a default because it would mean a single store for every `Provider`.  You shouldn't have more than one `Provider`, anyway, though.
+      store = createStore((state: S, action: A) => state),
     } = props;
     this.store = store;
     this.registerModules = createRegisterModules(store, reducers);
