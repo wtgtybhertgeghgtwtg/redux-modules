@@ -43,22 +43,17 @@ class MockProvider<S, A> extends Component<MockProviderProps<S, A>> {
  * @private
  * A stub component, since `div` would complain about getting odd props.  It's a class since `findRenderedComponentWithType` has trouble keeping track of functional components.
  */
-class Passthrough extends Component<{}> {
+class Child extends Component<{}> {
   render() {
     return <div />;
   }
-}
-
-// eslint-disable-next-line require-jsdoc
-function Container(props: {}) {
-  return <Passthrough {...props} />;
 }
 
 const connector = connectComponent(identity, [], defaultMapModulesToProps, {
   connectWrapper: identity,
 });
 
-const ConnectedContainer = connector(Container);
+const ConnectedChild = connector(Child);
 
 const dummyModule = createModule({
   initialState: {
@@ -81,7 +76,7 @@ describe('connectComponent', () => {
     expect(() =>
       TestUtils.renderIntoDocument(
         <ReactReduxProvider store={store}>
-          <ConnectedContainer />
+          <ConnectedChild />
         </ReactReduxProvider>,
       ),
     ).not.toThrow();
@@ -92,12 +87,12 @@ describe('connectComponent', () => {
     const store = createStore(dummyModule.reducer);
     const tree = TestUtils.renderIntoDocument(
       <MockProvider registerModules={registerModules} store={store}>
-        <ConnectedContainer />
+        <ConnectedChild />
       </MockProvider>,
     );
     const container = TestUtils.findRenderedComponentWithType(
       tree,
-      ConnectedContainer,
+      ConnectedChild,
     );
     expect(container.context.registerModules).toBe(registerModules);
     // Since `react-redux` does this, might as well here.
@@ -109,13 +104,10 @@ describe('connectComponent', () => {
     const store = createStore(dummyModule.reducer);
     const tree = TestUtils.renderIntoDocument(
       <MockProvider registerModules={registerModules} store={store}>
-        <ConnectedContainer propThree={false} propTwo="three" />
+        <ConnectedChild propThree={false} propTwo="three" />
       </MockProvider>,
     );
-    const passthrough = TestUtils.findRenderedComponentWithType(
-      tree,
-      Passthrough,
-    );
+    const passthrough = TestUtils.findRenderedComponentWithType(tree, Child);
     expect(passthrough.props.propOne).toEqual(1);
     // Prioritizes state over props by default.
     expect(passthrough.props.propTwo).toEqual('two');
@@ -127,13 +119,10 @@ describe('connectComponent', () => {
     const store = createStore(dummyModule.reducer);
     const tree = TestUtils.renderIntoDocument(
       <MockProvider registerModules={registerModules} store={store}>
-        <ConnectedContainer />
+        <ConnectedChild />
       </MockProvider>,
     );
-    const passthrough = TestUtils.findRenderedComponentWithType(
-      tree,
-      Passthrough,
-    );
+    const passthrough = TestUtils.findRenderedComponentWithType(tree, Child);
     expect(passthrough.props.propOne).toEqual(1);
     expect(passthrough.props.propTwo).toEqual('two');
     store.dispatch(dummyModule.actionCreators.bumpPropOne());
