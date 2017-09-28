@@ -1,5 +1,3 @@
-// @flow
-
 // "Inspired by" Jest's `.eslintrc.js`
 module.exports = {
   extends: ['fb-strict', 'plugin:import/errors'],
