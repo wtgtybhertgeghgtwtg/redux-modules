@@ -12,7 +12,7 @@ import type {
   // Transformations,
 } from '../src/types';
 
-// eslint-disable-next-line require-jsdoc
+
 function harness<S: Object, C: {}>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
