@@ -2,7 +2,6 @@
 import normalizeTransformation from '../src/normalizeTransformation';
 import type {ImplicitTransformation} from '../src/types';
 
-// eslint-disable-next-line require-jsdoc
 function harness<S: Object, P, M>(
   transformation: ImplicitTransformation<S, P, M>,
 ) {
