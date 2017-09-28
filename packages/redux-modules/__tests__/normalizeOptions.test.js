@@ -9,7 +9,6 @@ import type {
   Transformation,
 } from '../src/types';
 
-
 function harness<S: Object, C: ImplicitTransformations<S>>(
   options: CreateModuleOptions<S, C>,
 ) {

@@ -12,7 +12,6 @@ import type {
   // Transformations,
 } from '../src/types';
 
-
 function harness<S: Object, C: {}>(
   options: NormalizedCreateModuleOptions<S, C>,
 ): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
