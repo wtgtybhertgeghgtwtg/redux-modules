@@ -11,15 +11,11 @@ export default createModule;
 export type {
   Action,
   ActionCreator,
-  ActionCreators,
   ExtractActionCreatorType,
   ExtractTypeType,
   ImplicitTransformation,
-  ImplicitTransformations,
   NormalizedCreateModuleOptions,
   ReducerMap,
   ReduxModule,
   Transformation,
-  // Transformations,
-  Types,
 } from './types';

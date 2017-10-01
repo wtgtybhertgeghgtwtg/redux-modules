@@ -10,8 +10,6 @@ export type Action<P = void, M = void> = {
 
 export type ActionCreator<P, M> = (payload: P, meta: M) => Action<P, M>;
 
-export type ActionCreators = StringMap<ActionCreator<*, *>>;
-
 export type CreateModuleOptions<S: Object, C: ImplicitTransformations<S>> = {
   initialState: S,
   name: string,
@@ -33,9 +31,9 @@ export type ImplicitTransformation<S: Object, P, M> =
   | Reducer<S, Action<P, M>>
   | Transformation<S, P, M>;
 
-export type ImplicitTransformations<S: Object> = StringMap<
-  ImplicitTransformation<S, any, any>,
->;
+export type ImplicitTransformations<S: Object> = {
+  [name: string]: ImplicitTransformation<S, any, any>,
+};
 
 export type ModuleCreator<S: Object, C: {}> = (
   options: NormalizedCreateModuleOptions<S, C>,
@@ -49,20 +47,13 @@ export type NormalizedCreateModuleOptions<S: Object, C: {}> = {
 
 export type ReducerMap<S> = Map<string, Reducer<S, *>>;
 
-export type ReduxModule<S: Object, A: ActionCreators> = {
+export type ReduxModule<S: Object, A> = {
   actionCreators: A,
   name: string,
   reducer: Reducer<S, *>,
   types: $ObjMap<A, ExtractTypeType>,
 };
 
-export type StringMap<T> = {
-  [name: string]: T,
-};
-
 export type Transformation<S: Object, P, M> = {
   reducer: Reducer<S, Action<P, M>>,
 };
-
-// This is also dumb.
-export type Types = StringMap<string>;

@@ -1,5 +1,5 @@
 // @flow
-import type {ActionCreators, ReduxModule} from '@wtg/redux-modules';
+import type {ActionCreator, ReduxModule} from '@wtg/redux-modules';
 // import type {MapDispatchToProps} from 'react-redux';
 // import type {MapModulesToProps} from './types';
 
@@ -11,10 +11,11 @@ import type {ActionCreators, ReduxModule} from '@wtg/redux-modules';
  */
 export default function defaultMapModulesToProps(
   modules: Array<ReduxModule<Object, $Shape<*>>>,
-): ActionCreators {
+): {[name: string]: ActionCreator<any, any>} {
   const actionCreators = modules.map(
-    <A: ActionCreators>(reduxModule: ReduxModule<*, A>) =>
-      reduxModule.actionCreators,
+    <A: {[name: string]: ActionCreator<any, any>}>(
+      reduxModule: ReduxModule<Object, A>,
+    ) => reduxModule.actionCreators,
   );
   return Object.assign({}, ...actionCreators);
 }

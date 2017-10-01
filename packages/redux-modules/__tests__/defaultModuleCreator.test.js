@@ -9,7 +9,6 @@ import type {
   ExtractActionCreatorType,
   NormalizedCreateModuleOptions,
   ReduxModule,
-  // Transformations,
 } from '../src/types';
 
 function harness<S: Object, C: {}>(
