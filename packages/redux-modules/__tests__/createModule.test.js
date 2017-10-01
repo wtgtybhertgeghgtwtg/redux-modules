@@ -51,7 +51,7 @@ function harness<S: Object, C: ImplicitTransformations<S>>(
     };
 
     it('returns `state` for unknown types.', () => {
-      const testState = {...initialState, aPropNotInitialState: 0};
+      const testState = {...initialState, aPropNotInInitialState: 0};
       const resultState = testModule.reducer(testState, fakeAction);
       expect(resultState).toEqual(testState);
     });

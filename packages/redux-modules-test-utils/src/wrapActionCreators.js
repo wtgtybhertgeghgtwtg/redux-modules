@@ -1,9 +1,5 @@
 // @flow
-import type {
-  ActionCreator,
-  ActionCreators,
-  ReduxModule,
-} from '@wtg/redux-modules';
+import type {ActionCreator, ReduxModule} from '@wtg/redux-modules';
 import {mapValues} from 'lodash';
 
 export type ActionCreatorWrapper = <P, M>(
@@ -35,7 +31,10 @@ export type ActionCreatorWrapper = <P, M>(
  * @param {ActionCreatorWrapper} wrapper The wrapper function.
  * @return {ReduxModule} The module with its actionCreators bound.
  */
-export default function wrapActionCreators<S: Object, A: ActionCreators>(
+export default function wrapActionCreators<
+  S: Object,
+  A: {[name: string]: ActionCreator<any, any>},
+>(
   reduxModule: ReduxModule<S, A>,
   wrapper: ActionCreatorWrapper,
 ): ReduxModule<S, A> {

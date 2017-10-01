@@ -1,9 +1,5 @@
 // @flow
-import type {
-  ActionCreator,
-  ActionCreators,
-  ReduxModule,
-} from '@wtg/redux-modules';
+import type {ActionCreator, ReduxModule} from '@wtg/redux-modules';
 import {mapValues} from 'lodash';
 
 export type BoundModule<S, A> = $ObjMap<A, ExtractBoundModule<S>>;
@@ -36,9 +32,10 @@ type ExtractBoundModule<S> = <P, M>(
  * @param {ReduxModule} reduxModule The module to bind.
  * @return {BoundModule} The bound module.
  */
-export default function bindModule<S: Object, A: ActionCreators>(
-  reduxModule: ReduxModule<S, A>,
-): BoundModule<S, A> {
+export default function bindModule<
+  S: Object,
+  A: {[name: string]: ActionCreator<any, any>},
+>(reduxModule: ReduxModule<S, A>): BoundModule<S, A> {
   const {actionCreators, reducer} = reduxModule;
   const bindActionCreator = <P, M>(actionCreator: ActionCreator<P, M>) => (
     state: S,
