@@ -2,16 +2,9 @@
 import {forEach} from 'lodash';
 
 import normalizeOptions from '../src/normalizeOptions';
-import type {
-  Action,
-  CreateModuleOptions,
-  ImplicitTransformations,
-  Transformation,
-} from '../src/types';
+import type {Action, CreateModuleOptions, Transformation} from '../src/types';
 
-function harness<S: Object, C: ImplicitTransformations<S>>(
-  options: CreateModuleOptions<S, C>,
-) {
+function harness<S: Object, C: {}>(options: CreateModuleOptions<S, C>) {
   const {initialState, name, transformations} = options;
   const transformationKeys = transformations
     ? Object.keys(transformations)
@@ -46,21 +39,26 @@ function harness<S: Object, C: ImplicitTransformations<S>>(
   });
 }
 
+type State = {
+  propOne: number,
+  propThree: Array<string>,
+  propTwo: string,
+};
 const name = 'test';
-const initialState = {
+const initialState: State = {
   propOne: 1,
   propThree: ['three'],
   propTwo: 'two',
 };
 const otherProp = 'This should remain.';
 const transformations = {
-  bumpPropOne: state => ({...state, propOne: state.propOne + 1}),
-  mergePropThree: (state, action: Action<Array<string>>) => ({
+  bumpPropOne: (state: State) => ({...state, propOne: state.propOne + 1}),
+  mergePropThree: (state: State, action: Action<Array<string>>) => ({
     ...state,
     propThree: [...state.propThree, action.payload],
   }),
   setPropTwo: {
-    reducer: (state, action: Action<string>) => ({
+    reducer: (state: State, action: Action<string>) => ({
       ...state,
       propTwo: action.payload,
     }),
