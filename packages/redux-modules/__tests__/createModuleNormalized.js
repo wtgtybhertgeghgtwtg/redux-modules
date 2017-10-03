@@ -1,67 +1,9 @@
 // @flow
-import {isFSA} from 'flux-standard-action';
-import {forEach} from 'lodash';
+import createHarness from './createHarness';
+import createModuleNormalized from '../src/createModuleNormalized';
+import type {Action} from '../src/types';
 
-import defaultModuleCreator from '../src/defaultModuleCreator';
-import type {
-  Action,
-  ActionCreator,
-  ExtractActionCreatorType,
-  NormalizedCreateModuleOptions,
-  ReduxModule,
-} from '../src/types';
-
-function harness<S: Object, C: {}>(
-  options: NormalizedCreateModuleOptions<S, C>,
-): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
-  const {initialState, name, transformations} = options;
-  const transformationKeys = Object.keys(transformations);
-  const testModule = defaultModuleCreator(options);
-
-  it('passes `name` as `name`.', () => {
-    expect(testModule.name).toEqual(name);
-  });
-
-  it('creates an action creator for each transformation.', () => {
-    expect(Object.keys(testModule.actionCreators)).toEqual(transformationKeys);
-    forEach(
-      testModule.actionCreators,
-      (actionCreator: ActionCreator<*, *>, name: string) => {
-        const action = actionCreator();
-        expect(isFSA(action)).toBe(true);
-        expect(testModule.types[name]).toEqual(action.type);
-      },
-    );
-  });
-
-  it('creates a type for each transformation.', () => {
-    expect(Object.keys(testModule.types)).toEqual(transformationKeys);
-  });
-
-  it('creates a reducer.', () => {
-    expect(typeof testModule.reducer).toEqual('function');
-  });
-
-  describe('the resultant reducer', () => {
-    const fakeAction = {
-      type: 'This does not match anything.',
-    };
-
-    it('returns `state` for unknown types.', () => {
-      const testState = {...initialState, aPropNotInitialState: 0};
-      const resultState = testModule.reducer(testState, fakeAction);
-      expect(resultState).toEqual(testState);
-    });
-
-    it('uses `initialState` if `state` is undefined.', () => {
-      // $FlowFixMe
-      const resultState = testModule.reducer(undefined, fakeAction);
-      expect(resultState).toEqual(initialState);
-    });
-  });
-
-  return testModule;
-}
+const harness = createHarness(createModuleNormalized);
 
 describe('defaultModuleCreator({initialState, name, transformations})', () => {
   afterEach(() => {
@@ -75,7 +17,7 @@ describe('defaultModuleCreator({initialState, name, transformations})', () => {
   };
 
   const name = 'test';
-  const initialState = {
+  const initialState: State = {
     propOne: 1,
     propThree: false,
     propTwo: 'two',

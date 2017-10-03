@@ -1,15 +1,22 @@
 // @flow
-import {invokeMap} from 'lodash';
 import createReducer from '../src/createReducer';
 
 import type {Action} from '../src/types';
 
 describe('the reducer returned by `createReducer`', () => {
-  const initialState = {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  type State = {
+    isInState?: boolean,
+    propOne: number,
+    propTwo: string,
+  };
+  const initialState: State = {
     propOne: 1,
     propTwo: 'two',
   };
-  type State = typeof initialState;
   const bumpPropOne = jest.fn((state: State) => ({
     ...state,
     propOne: state.propOne + 1,
@@ -35,11 +42,6 @@ describe('the reducer returned by `createReducer`', () => {
   const fakeAction = {
     type: 'FAKE_TYPE',
   };
-
-  // Reset all mock functions.
-  afterEach(() => {
-    invokeMap(reducerMap, 'mockReset');
-  });
 
   it('returns `state` if the `type` of `action` does not match a key of `reducerMap`.', () => {
     const outState = reducer(inState, fakeAction);

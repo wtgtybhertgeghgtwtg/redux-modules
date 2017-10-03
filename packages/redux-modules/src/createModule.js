@@ -1,12 +1,11 @@
 // @flow
-import defaultModuleCreator from './defaultModuleCreator';
+import createModuleNormalized from './createModuleNormalized';
 import normalizeOptions from './normalizeOptions';
 import type {
   CreateModuleOptions,
   ExtractActionCreatorType,
   ExtractTransformationType,
-  ImplicitTransformations,
-  ModuleCreator,
+  ModuleEnhancer,
   ReduxModule,
 } from './types';
 
@@ -27,16 +26,15 @@ import type {
  * });
  * @example
  * @param {CreateModuleOptions} options The options used to create the ReduxModule.
- * @param {ModuleCreator} [moduleCreator=defaultModuleCreator] The ModuleCreator used to parse options.
+ * @param {ModuleEnhancer} [enhancer=] An optional module enhancer.
  * @return {ReduxModule} The created ReduxModule.
  */
-export default function createModule<S: Object, C: ImplicitTransformations<S>>(
+export default function createModule<S: Object, C: {}>(
   options: CreateModuleOptions<S, C>,
-  moduleCreator: ModuleCreator<
-    S,
-    $ObjMap<C, ExtractTransformationType>,
-  > = defaultModuleCreator,
+  enhancer?: ModuleEnhancer<S, $ObjMap<C, ExtractTransformationType>>,
 ): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
-  const normalOptions = normalizeOptions(options);
-  return moduleCreator(normalOptions);
+  const normalizedOptions = normalizeOptions(options);
+  const result = createModuleNormalized(normalizedOptions, enhancer);
+  return result;
+  // return createModuleNormalized(normalizedOptions, enhancer);
 }
