@@ -1,12 +1,18 @@
 // @flow
-import createModuleNormalized from './createModuleNormalized';
-import normalizeOptions from './normalizeOptions';
+import invariant from 'invariant';
+import {forEach, isObjectLike, mapValues} from 'lodash';
+
+import createActionCreator from './createActionCreator';
+import createReducer from './createReducer';
+import formatType from './formatType';
+import normalizeTransformation from './normalizeTransformation';
 import type {
   CreateModuleOptions,
   ExtractActionCreatorType,
   ExtractTransformationType,
   ModuleEnhancer,
   ReduxModule,
+  Transformation,
 } from './types';
 
 /**
@@ -33,8 +39,34 @@ export default function createModule<S: Object, C: {}>(
   options: CreateModuleOptions<S, C>,
   enhancer?: ModuleEnhancer<S, $ObjMap<C, ExtractTransformationType>>,
 ): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
-  const normalizedOptions = normalizeOptions(options);
-  const result = createModuleNormalized(normalizedOptions, enhancer);
-  return result;
-  // return createModuleNormalized(normalizedOptions, enhancer);
+  if (enhancer) {
+    return enhancer(createModule)(options);
+  }
+  const {initialState, name, transformations = {}} = options;
+  invariant(name, '`name` must be defined.');
+  invariant(isObjectLike(initialState), '`initialState` must be an object.');
+  invariant(
+    isObjectLike(transformations),
+    '`transformations` must be an object or undefined.',
+  );
+
+  const actionCreators: $ObjMap<C, ExtractActionCreatorType> = {};
+  const types: $ObjMap<C, () => string> = {};
+  const reducerMap = new Map();
+  forEach(
+    mapValues(transformations, normalizeTransformation),
+    (transformation: Transformation<S, any, any>, actionName: string) => {
+      const type = formatType(name, actionName);
+      actionCreators[actionName] = createActionCreator(type);
+      types[actionName] = type;
+      reducerMap.set(type, transformation.reducer);
+    },
+  );
+  const reducer = createReducer(reducerMap, initialState);
+  return {
+    actionCreators,
+    name,
+    reducer,
+    types,
+  };
 }
