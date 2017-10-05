@@ -1,14 +1,72 @@
 // @flow
-import createHarness from './createHarness';
+import {isFSA} from 'flux-standard-action';
+import {forEach} from 'lodash';
+
 import createModule from '../src/createModule';
 import type {
   Action,
+  ActionCreator,
+  CreateModuleOptions,
+  ExtractActionCreatorType,
   ModuleCreator,
   ModuleEnhancer,
-  NormalizedCreateModuleOptions,
+  ReduxModule,
 } from '../src/types';
 
-const harness = createHarness(createModule);
+function harness<S: Object, C: {}>(
+  options: CreateModuleOptions<S, C>,
+  enhancer?: ModuleEnhancer<any, any>,
+): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
+  const {initialState, name, transformations} = options;
+  const transformationKeys = transformations
+    ? Object.keys(transformations)
+    : [];
+  const testModule = createModule(options, enhancer);
+
+  it('passes `name` as `name`.', () => {
+    expect(testModule.name).toEqual(name);
+  });
+
+  it('creates an action creator for each transformation.', () => {
+    expect(Object.keys(testModule.actionCreators)).toEqual(transformationKeys);
+    forEach(
+      testModule.actionCreators,
+      (actionCreator: ActionCreator<*, *>, name: string) => {
+        const action = actionCreator();
+        expect(isFSA(action)).toBe(true);
+        expect(testModule.types[name]).toEqual(action.type);
+      },
+    );
+  });
+
+  it('creates a type for each transformation.', () => {
+    expect(Object.keys(testModule.types)).toEqual(transformationKeys);
+  });
+
+  it('creates a reducer.', () => {
+    expect(typeof testModule.reducer).toEqual('function');
+  });
+
+  describe('the resultant reducer', () => {
+    const fakeAction = {
+      type: 'This does not match anything.',
+    };
+
+    it('returns `state` for unknown types.', () => {
+      const testState = {...initialState, aPropNotInInitialState: 0};
+      const resultState = testModule.reducer(testState, fakeAction);
+      expect(resultState).toEqual(testState);
+    });
+
+    it('uses `initialState` if `state` is undefined.', () => {
+      // $FlowFixMe
+      const resultState = testModule.reducer(undefined, fakeAction);
+      expect(resultState).toEqual(initialState);
+    });
+  });
+
+  return testModule;
+}
 
 describe('createModule', () => {
   afterEach(() => {
@@ -49,11 +107,11 @@ describe('createModule', () => {
     },
   };
   const testEnhancer = jest.fn(
-    (createModule: ModuleCreator<any, any>) => <S: Object, C: {}>(
-      options: NormalizedCreateModuleOptions<S, C>,
+    (next: ModuleCreator<any, any>) => <S: Object, C: {}>(
+      options: CreateModuleOptions<S, C>,
       enhancer?: ModuleEnhancer<S, C>,
     ) => {
-      const reduxModule = createModule(options, enhancer);
+      const reduxModule = next(options, enhancer);
       return {
         ...reduxModule,
         someCustomProp: 'custom',
@@ -76,8 +134,11 @@ describe('createModule', () => {
   });
 
   describe('createModule({initialState, name})', () => {
-    // $FlowFixMe
-    harness({initialState, name});
+    const testModule = harness({initialState, name});
+    it('still defines all properties.', () => {
+      expect(testModule.actionCreators).toBeDefined();
+      expect(testModule.types).toBeDefined();
+    });
   });
 
   describe('createModule({initialState, name, transformations})', () => {

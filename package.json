@@ -13,9 +13,9 @@
     "eslint": "^4.8.0",
     "eslint-config-fb-strict": "^21.2.0",
     "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-flowtype": "^2.37.0",
+    "eslint-plugin-flowtype": "^2.38.0",
     "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jasmine": "^2.8.5",
+    "eslint-plugin-jasmine": "^2.8.6",
     "eslint-plugin-jest": "^21.2.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
@@ -33,9 +33,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
-    "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
-    "redux-saga": "^0.15.6",
     "rimraf": "^2.6.2"
   },
   "engines": {
@@ -43,6 +41,11 @@
     "yarn": ">=1"
   },
   "jest": {
+    "collectCoverageFrom": [
+      "**/packages/**/src/**/*.js",
+      "!**/index.js",
+      "!**/types.js"
+    ],
     "testMatch": ["**/*.test.js"]
   },
   "private": "true",

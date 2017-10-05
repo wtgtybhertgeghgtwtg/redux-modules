@@ -29,19 +29,13 @@ export type ImplicitTransformation<S: Object, P, M> =
   | Transformation<S, P, M>;
 
 export type ModuleCreator<S: Object, C: {}> = (
-  options: NormalizedCreateModuleOptions<S, C>,
+  options: CreateModuleOptions<S, C>,
   enhancer?: ModuleEnhancer<S, C>,
 ) => ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>>;
 
 export type ModuleEnhancer<S: Object, C: {}> = (
   next: ModuleCreator<S, C>,
 ) => ModuleCreator<S, C>;
-
-export type NormalizedCreateModuleOptions<S: Object, C: {}> = {
-  initialState: S,
-  name: string,
-  transformations: C,
-};
 
 export type ReducerMap<S> = Map<string, Reducer<S, Action<any, any>>>;
 
