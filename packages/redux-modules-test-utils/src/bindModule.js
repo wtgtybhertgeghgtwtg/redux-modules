@@ -2,11 +2,9 @@
 import type {ActionCreator, ReduxModule} from '@wtg/redux-modules';
 import {mapValues} from 'lodash';
 
-export type BoundModule<S, A> = $ObjMap<A, ExtractBoundModule<S>>;
-
-type ExtractBoundModule<S> = <P, M>(
-  ActionCreator<P, M>,
-) => (state: S, payload?: P, meta?: M) => S;
+type ExtractBoundActionCreator<State> = <Payload, Meta>(
+  ActionCreator<Payload, Meta>,
+) => (state: State, payload: Payload, meta: Meta) => State;
 
 /**
  * Binds the actionCreators of a module to its reducer for easier testing.
@@ -33,14 +31,15 @@ type ExtractBoundModule<S> = <P, M>(
  * @return {BoundModule} The bound module.
  */
 export default function bindModule<
-  S: Object,
-  A: {[name: string]: ActionCreator<any, any>},
->(reduxModule: ReduxModule<S, A>): BoundModule<S, A> {
+  State: Object,
+  AMap: {[transformationName: string]: ActionCreator<any, any>},
+>(
+  reduxModule: ReduxModule<State, AMap>,
+): $ObjMap<AMap, ExtractBoundActionCreator<State>> {
   const {actionCreators, reducer} = reduxModule;
-  const bindActionCreator = <P, M>(actionCreator: ActionCreator<P, M>) => (
-    state: S,
-    payload: P,
-    meta: M,
-  ) => reducer(state, actionCreator(payload, meta));
+  const bindActionCreator = <Payload, Meta>(
+    actionCreator: ActionCreator<Payload, Meta>,
+  ) => (state: State, payload: Payload, meta: Meta) =>
+    reducer(state, actionCreator(payload, meta));
   return mapValues(actionCreators, bindActionCreator);
 }

@@ -13,10 +13,10 @@ import type {
   ReduxModule,
 } from '../src/types';
 
-function harness<S: Object, C: {}>(
-  options: CreateModuleOptions<S, C>,
+function harness<State: Object, IMap: {}>(
+  options: CreateModuleOptions<State, IMap>,
   enhancer?: ModuleEnhancer<any, any>,
-): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
+): ReduxModule<State, $ObjMap<IMap, ExtractActionCreatorType>> {
   const {initialState, name, transformations} = options;
   const transformationKeys = transformations
     ? Object.keys(transformations)
@@ -107,9 +107,9 @@ describe('createModule', () => {
     },
   };
   const testEnhancer = jest.fn(
-    (next: ModuleCreator<any, any>) => <S: Object, C: {}>(
-      options: CreateModuleOptions<S, C>,
-      enhancer?: ModuleEnhancer<S, C>,
+    (next: ModuleCreator<any, any>) => <State: Object, IMap: {}>(
+      options: CreateModuleOptions<State, IMap>,
+      enhancer?: ModuleEnhancer<State, IMap>,
     ) => {
       const reduxModule = next(options, enhancer);
       return {

@@ -2,8 +2,8 @@
 import normalizeTransformation from '../src/normalizeTransformation';
 import type {ImplicitTransformation} from '../src/types';
 
-function harness<S: Object, P, M>(
-  transformation: ImplicitTransformation<S, P, M>,
+function harness<State: Object, Payload, Meta>(
+  transformation: ImplicitTransformation<State, Payload, Meta>,
 ) {
   const canonicalTransformation = normalizeTransformation(
     transformation,

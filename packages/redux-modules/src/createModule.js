@@ -35,10 +35,10 @@ import type {
  * @param {ModuleEnhancer} [enhancer=] An optional module enhancer.
  * @return {ReduxModule} The created ReduxModule.
  */
-export default function createModule<S: Object, C: {}>(
-  options: CreateModuleOptions<S, C>,
-  enhancer?: ModuleEnhancer<S, $ObjMap<C, ExtractTransformationType>>,
-): ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>> {
+export default function createModule<State: Object, IMap: {}>(
+  options: CreateModuleOptions<State, IMap>,
+  enhancer?: ModuleEnhancer<State, $ObjMap<IMap, ExtractTransformationType>>,
+): ReduxModule<State, $ObjMap<IMap, ExtractActionCreatorType>> {
   if (enhancer) {
     return enhancer(createModule)(options);
   }
@@ -50,12 +50,12 @@ export default function createModule<S: Object, C: {}>(
     '`transformations` must be an object or undefined.',
   );
 
-  const actionCreators: $ObjMap<C, ExtractActionCreatorType> = {};
-  const types: $ObjMap<C, () => string> = {};
+  const actionCreators: $ObjMap<IMap, ExtractActionCreatorType> = {};
+  const types: $ObjMap<IMap, () => string> = {};
   const reducerMap = new Map();
   forEach(
     mapValues(transformations, normalizeTransformation),
-    (transformation: Transformation<S, any, any>, actionName: string) => {
+    (transformation: Transformation<State, any, any>, actionName: string) => {
       const type = formatType(name, actionName);
       actionCreators[actionName] = createActionCreator(type);
       types[actionName] = type;
