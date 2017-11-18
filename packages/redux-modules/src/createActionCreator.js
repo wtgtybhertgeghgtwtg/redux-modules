@@ -7,10 +7,10 @@ import type {ActionCreator} from './types';
  * @param {string} type The `type` the Action created by the ActionCreator will have.
  * @return {ActionCreator} The created ActionCreator.
  */
-export default function createActionCreator<P, M>(
+export default function createActionCreator<Payload, Meta>(
   type: string,
-): ActionCreator<P, M> {
-  return function actionCreator(payload: P, meta: M) {
+): ActionCreator<Payload, Meta> {
+  return function actionCreator(payload, meta) {
     return {
       error: payload instanceof Error,
       meta,

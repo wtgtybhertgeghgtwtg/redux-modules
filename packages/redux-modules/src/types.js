@@ -1,51 +1,54 @@
 // @flow
 import type {Reducer} from 'redux';
 
-export type Action<P = void, M = void> = {
+export type Action<Payload, Meta = void> = {
   type: string,
-  payload: P,
+  payload: Payload,
   error: boolean,
-  meta: M,
+  meta: Meta,
 };
 
-export type ActionCreator<P, M> = (payload: P, meta: M) => Action<P, M>;
+export type ActionCreator<Payload, Meta> = (
+  payload: Payload,
+  meta: Meta,
+) => Action<Payload, Meta>;
 
-export type CreateModuleOptions<S: Object, C: {}> = {
-  initialState: S,
+export type CreateModuleOptions<State: Object, IMap: {}> = {
+  initialState: State,
   name: string,
-  transformations?: C,
+  transformations?: IMap,
 };
 
-export type ExtractActionCreatorType = <P, M>(
-  Reducer<Object, Action<P, M>> | Transformation<Object, P, M>,
-) => ActionCreator<P, M>;
+export type ExtractActionCreatorType = <Payload, Meta>(
+  Reducer<any, Action<Payload, Meta>> | Transformation<any, Payload, Meta>,
+) => ActionCreator<Payload, Meta>;
 
-export type ExtractTransformationType = <S: Object, P, M>(
-  ImplicitTransformation<S, P, M>,
-) => Transformation<S, P, M>;
+export type ExtractTransformationType = <State: Object, Payload, Meta>(
+  ImplicitTransformation<State, Payload, Meta>,
+) => Transformation<State, Payload, Meta>;
 
-export type ImplicitTransformation<S: Object, P, M> =
-  | Reducer<S, Action<P, M>>
-  | Transformation<S, P, M>;
+export type ImplicitTransformation<State: Object, Payload, Meta> =
+  | Reducer<State, Action<Payload, Meta>>
+  | Transformation<State, Payload, Meta>;
 
-export type ModuleCreator<S: Object, C: {}> = (
-  options: CreateModuleOptions<S, C>,
-  enhancer?: ModuleEnhancer<S, C>,
-) => ReduxModule<S, $ObjMap<C, ExtractActionCreatorType>>;
+export type ModuleCreator<State: Object, IMap: {}> = (
+  options: CreateModuleOptions<State, IMap>,
+  enhancer?: ModuleEnhancer<State, IMap>,
+) => ReduxModule<State, $ObjMap<IMap, ExtractActionCreatorType>>;
 
-export type ModuleEnhancer<S: Object, C: {}> = (
-  next: ModuleCreator<S, C>,
-) => ModuleCreator<S, C>;
+export type ModuleEnhancer<State: Object, IMap: {}> = (
+  next: ModuleCreator<State, IMap>,
+) => ModuleCreator<State, IMap>;
 
-export type ReducerMap<S> = Map<string, Reducer<S, Action<any, any>>>;
+export type ReducerMap<State> = Map<string, Reducer<State, Action<any, any>>>;
 
-export type ReduxModule<S: Object, A> = {
-  actionCreators: A,
+export type ReduxModule<State: Object, AMap> = {
+  actionCreators: AMap,
   name: string,
-  reducer: Reducer<S, {type: string}>,
-  types: $ObjMap<A, () => string>,
+  reducer: Reducer<State, {type: string}>,
+  types: $ObjMap<AMap, () => string>,
 };
 
-export type Transformation<S: Object, P, M> = {
-  reducer: Reducer<S, Action<P, M>>,
+export type Transformation<State: Object, Payload, Meta> = {
+  reducer: Reducer<State, Action<Payload, Meta>>,
 };

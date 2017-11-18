@@ -2,10 +2,10 @@
 import type {ActionCreator, ReduxModule} from '@wtg/redux-modules';
 import {mapValues} from 'lodash';
 
-export type ActionCreatorWrapper = <P, M>(
-  actionCreator: ActionCreator<P, M>,
+type ActionCreatorWrapper = <Payload, Meta>(
+  actionCreator: ActionCreator<Payload, Meta>,
   name: string,
-) => ActionCreator<P, M>;
+) => ActionCreator<Payload, Meta>;
 
 /**
  * Wraps the actionCreators of a module with a function and returns a new module.
@@ -32,14 +32,17 @@ export type ActionCreatorWrapper = <P, M>(
  * @return {ReduxModule} The module with its actionCreators bound.
  */
 export default function wrapActionCreators<
-  S: Object,
-  A: {[name: string]: ActionCreator<any, any>},
+  State: Object,
+  AMap: {[transformationName: string]: ActionCreator<any, any>},
 >(
-  reduxModule: ReduxModule<S, A>,
+  reduxModule: ReduxModule<State, AMap>,
   wrapper: ActionCreatorWrapper,
-): ReduxModule<S, A> {
+): ReduxModule<State, AMap> {
   // $FlowFixMe `mapValues` doesn't preserve type information.
-  const boundActionCreators: A = mapValues(reduxModule.actionCreators, wrapper);
+  const boundActionCreators: AMap = mapValues(
+    reduxModule.actionCreators,
+    wrapper,
+  );
   return {
     ...reduxModule,
     actionCreators: boundActionCreators,

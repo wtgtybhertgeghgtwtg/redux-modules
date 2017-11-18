@@ -10,14 +10,14 @@ import type {Action, ReducerMap} from './types';
  * @param {State} initialState The initialState of the Reducer.
  * @return {Reducer} The created Reducer.
  */
-export default function createReducer<S: Object>(
-  reducerMap: ReducerMap<S>,
-  initialState: S,
-): Reducer<S, *> {
+export default function createReducer<State: Object>(
+  reducerMap: ReducerMap<State>,
+  initialState: State,
+): Reducer<State, *> {
   return function reducer(
-    state: S = initialState,
+    state: State = initialState,
     action: Action<any, any>,
-  ): S {
+  ): State {
     const localReducer = reducerMap.get(action.type);
     return localReducer ? localReducer(state, action) : state;
   };

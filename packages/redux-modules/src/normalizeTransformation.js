@@ -11,10 +11,10 @@ import type {ImplicitTransformation, Transformation} from './types';
  * @param {string} name The name of the transformation.
  * @return {Transformation} The normalized transformation.
  */
-export default function normalizeTransformation<S: Object, P, M>(
-  transformation: ImplicitTransformation<S, P, M>,
+export default function normalizeTransformation<State: Object, Payload, Meta>(
+  transformation: ImplicitTransformation<State, Payload, Meta>,
   name: string,
-): Transformation<S, P, M> {
+): Transformation<State, Payload, Meta> {
   if (typeof transformation === 'function') {
     return {
       reducer: transformation,
